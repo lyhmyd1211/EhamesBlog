@@ -1,0 +1,40 @@
+.login-main{
+  height: 100vh;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -ms-flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  -webkit-align-items: flex-end;
+  background: url('../../assets/picture/background1.jpg');
+  .btn-login,.btn-register{
+  margin-left: 5px;
+  margin-right: 5px;
+  }
+  .login-modal-main{
+    display: none;
+    opacity: 0;
+  }
+  .login-modal-main-active{
+    height: 240px;
+    display: block;
+    animation: login 1s;
+    -moz-animation: login 1s;	/* Firefox */
+    -webkit-animation: login 1s;	/* Safari 和 Chrome */
+    -o-animation: login 1s;	/* Opera */
+    animation-timing-function:2s;
+    -webkit-animation-timing-function:2s;
+    animation-direction:alternate;
+  }
+@keyframes login{
+  from{
+    opacity: 0;
+    height: 0;
+  }
+  to{
+    opacity: 1;
+    height: 240px;
+  }
+}
+}

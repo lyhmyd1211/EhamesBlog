@@ -1,0 +1,38 @@
+
+.menu-item{
+  position: relative;
+  display: block;
+  padding-right: 2rem;
+  height: 3rem;
+  text-align: right;
+  text-transform: capitalize;
+  font-family: Baloo Bhaijaan,cursive;
+  line-height: 3rem;
+}
+.menu-item::after{
+  position: absolute;
+  top: 50%;
+  right: -.3rem;
+  display: block;
+  width: .6rem;
+  height: .6rem;
+  border-radius: .6rem;
+  background-color: #f4f4f4;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+  content: "";
+  transition: all .25s;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.menu-item:hover{
+  color: #000;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.selected{
+  color: #000;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+

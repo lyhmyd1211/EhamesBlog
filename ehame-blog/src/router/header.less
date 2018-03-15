@@ -1,0 +1,97 @@
+.base-header{
+ // position: fixed;
+  right: 0;
+  left: 0;
+  min-width: 768px;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 50px;
+  border: 1px solid transparent;
+  z-index: 1030;
+  background-color: #fff;
+  border-color: #f0f0f0;
+  .header-home{
+    cursor: pointer;
+    float: left;
+    height: 56px;
+    padding: 0;
+    color: #333;
+  }
+  .header-container{
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    .header-search{
+      .header-search-icon{
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0;
+        color: #969696;
+        text-align: center;
+        transform: translateX(-36px);
+      }
+      .header-search-input{
+        padding: 0 40px 0 20px;
+        width: 160px;
+        height: 38px;
+        font-size: 14px;
+        border: 1px solid #eee;
+        border-radius: 40px;
+        background: #eee;
+        transition: width .5s;
+        -moz-transition: width .5s;
+        -webkit-transition: width .5s;
+        -o-transition: width .5s;
+      }
+      .header-search-input:focus{
+        transition-delay: 0s;
+        -moz-transition-delay: 0s;
+        -webkit-transition-delay: 0s;
+        -o-transition-delay: 0s;
+        width: 240px;
+        outline: none;
+        box-shadow: none;
+      }
+      .header-search-input:focus+.header-search-icon{
+        background-color: #969696;
+        color: #fff!important;
+      }
+    }
+  }
+  .header-write-article{
+    float: right;
+    width: 100px;
+    height: 40px;
+    line-height: 24px;
+    margin: 8px 15px 0;
+    border-radius: 20px;
+    font-size: 15px;
+    color: #fff;
+    background-color: #ea6f5a;
+    }
+  
+  
+}
+@media (min-width: 768px){
+  .header-container {
+      width: 750px;
+  }
+}
+@media (min-width: 992px){
+  .header-container {
+    width: 970px;
+  }
+}
+@media (min-width: 1081px){
+  .header-container {
+      width: 960px;
+  }
+}
+

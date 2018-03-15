@@ -1,0 +1,30 @@
+.scroll-up{
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -webkit-transition: all 1s;
+  opacity: 0;
+  // display: none;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+.scroll-up-show{
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -webkit-transition: all 1s;
+  -webkit-transform: rotate(-360deg);
+          transform: rotate(-360deg);
+  opacity: 1;
+  // display: block;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+}
