@@ -30,6 +30,7 @@
     "koa-views": "^5.2.1",
     "koa2-cors": "^2.0.5",
     "mysql": "^2.15.0",
+    "pm2": "^2.10.1",
     "pug": "^2.0.0-rc.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
