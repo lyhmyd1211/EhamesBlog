@@ -33,8 +33,8 @@ export default class ArticleCard extends Component{
               title={content.title}
             />
             <div className="meta-info">
-              <span>发布日期: {moment(content.releaseTime).format('YYYY-MM-DD hh:mm:ss')}</span>&nbsp;&nbsp;
-              <span>最后修改: {moment(content.editTime).format('YYYY-MM-DD hh:mm:ss')}</span>&nbsp;&nbsp;
+              <span>发布日期: {moment(content.releaseTime).format('YYYY-MM-DD HH:mm:ss')}</span>&nbsp;&nbsp;
+              <span>最后修改: {moment(content.editTime).format('YYYY-MM-DD HH:mm:ss')}</span>&nbsp;&nbsp;
               <span>类别: {content.type}</span>&nbsp;&nbsp;
               <span>阅读次数: {content.beReadTimes}</span>
             </div>

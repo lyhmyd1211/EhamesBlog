@@ -20,6 +20,22 @@ const article = {
     let content = await articleModel.deleteArticleById(id);
     return content;
   },
+  async getAllArticleType(){
+    let content = await articleModel.getAllArticleType();
+    return content;
+  },
+  async addArticleType(formData){
+    let content = await articleModel.addArticleType(formData);
+    return content;
+  },
+  async deleteArticleType(id){
+    let content = await articleModel.deleteArticleTypeById(id);
+    return content;
+  },
+  async updateArticleType(formData){
+    let content = await articleModel.updateArticleType(formData);
+    return content;
+  },
 };
 module.exports = article;
 

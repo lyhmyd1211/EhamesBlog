@@ -12,7 +12,7 @@ class Header extends Component {
             <a className="header-search-icon"><Icon type="search" /></a>
           </div>
         </div>
-        <a className="header-write-article">
+        <a className="header-write-article" href="#/write">
           写文章
         </a>
       </header>

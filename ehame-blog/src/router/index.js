@@ -11,11 +11,11 @@ const App = () => {
   return <HashRouter>
     <Switch>
       <Route exact path="/" component={Login} />
+      <Route key="write" path="/write" component={Article} />
       <Base>
         <Switch>
           <Route key="home" path="/home" component={Home} />
           <Route key="detail" path="/detail/:articleId" component={Detail} />
-          <Route key="write" path="/write" component={Article} />
           <Route key="classification" path="/classification" component={Classification}/>
         </Switch>
       </Base>

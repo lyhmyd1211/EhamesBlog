@@ -15,24 +15,28 @@ let query = function (sql, values) {
             let newkey = [];
             let newValue = [];
             let length = 0;
-            rows.map((key,index)=>{
-              Object.keys(key).map((item,s) => { 
-                newkey.push(tools.convertToJs(item));
-                length = s+1;
+            if (Array.isArray(rows)) {
+              rows.map((key,index)=>{
+                Object.keys(key).map((item,s) => { 
+                  newkey.push(tools.convertToJs(item));
+                  length = s+1;
+                });
+                newValue = newValue.concat(Object.values(key));
               });
-              newValue = newValue.concat(Object.values(key));
-            });
-            let count = newkey.length;
-            let newRows = [];
-            let one = {};
-            for (let index = 0; index < count; index++) {
-              Object.assign(one,{[newkey[index]]:newValue[index]});
-              if (!((index+1) % length)) {
-                newRows.push(one);
-                one={};  
+              let count = newkey.length;
+              let newRows = [];
+              let one = {};
+              for (let index = 0; index < count; index++) {
+                Object.assign(one,{[newkey[index]]:newValue[index]});
+                if (!((index+1) % length)) {
+                  newRows.push(one);
+                  one={};  
+                }
               }
+              resolve(newRows);
+            }else{
+              resolve(rows);
             }
-            resolve(newRows);
           }
           connection.release();
         });
@@ -53,7 +57,7 @@ let finAllDataOderBy = function (table,orderBy,rule){
   let _sql = `SELECT * FROM ?? ORDER BY ?? ${rule}`;
   return query(_sql, [table, orderBy]);
 
-}
+};
 
 let findDataById = function (table, id) {
   let _sql = 'SELECT * FROM ?? WHERE id = ? ';

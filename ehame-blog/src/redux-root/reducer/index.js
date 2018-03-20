@@ -1,5 +1,5 @@
 import {
-  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP} from '../action/action-type.js';
+  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR} from '../action/action-type.js';
 import { combineReducers } from 'redux';
 
 const article = (state={articleData:{Num:0,list:[]}},action)=>{
@@ -36,6 +36,24 @@ const scrollUp = (state={isScrollUp:false},action)=>{
     return state;
   }
 };
+const getArticleContent = (state = { content: '' }, action) => {
+  switch (action.type) {
+  case ARTICLE_CONTENT:
+    return { content: action.payload };
+  default:
+    return state;
+  }
+};
+const getArticleType = (state = {articleType:{}},action)=>{
+  switch (action.type) {
+  case ARTICLE_TYPE:
+    return {articleType:action.payload}; 
+  case ARTICLE_TYPE_ERROR:
+    return {articleType:['获取失败']};
+  default:
+    return state;
+  }
+};
 export default combineReducers({
-  article, loginState, scrollPercent, scrollUp,
+  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType,
 });

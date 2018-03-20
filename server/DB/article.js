@@ -10,7 +10,7 @@ module.exports = {
   ARTICLE_VISIBILITY:'visibility',
   ARTICLE_RELEASE_TIME:'release_time',
   ARTICLE_EDIT_TIME:'edit_time',
-  ARTICLE_TYPE:'article_type',
+  ARTICLE_TYPE:'type',
   ARTICLE_BE_READ_TIMES:'be_read_times',
   ARTICLE_WORD_NUM:'word_num',
 };

@@ -22,23 +22,5 @@ let tools ={
     }
     return ip;
   },
-  getIpLocation : function (ip, cb) {
-    let sina_server_api = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=';
-    let url = sina_server_api + ip;
-    http.get(url, function (res) {
-      let code = res.statusCode;
-      if (code == 200) {
-        res.on('data', function (data) {
-          try {
-            cb(null, JSON.parse(data));
-          } catch (err) {
-            cb(err);
-          }
-        });
-      } else {
-        cb({ code: code });
-      }
-    }).on('error', function (e) { cb(e); });
-  },
 };
 module.exports = tools;

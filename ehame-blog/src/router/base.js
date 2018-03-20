@@ -72,7 +72,7 @@ class Base extends Component {
                 }
               </Card>
             </header>
-            <Affix offsetTop={40}>
+            <Affix offsetTop={60}>
               <Menu {...this.props}/>
             </Affix>
           </div>
