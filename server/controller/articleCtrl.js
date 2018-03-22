@@ -3,12 +3,14 @@ const  articleService = require('../service/articleService');
 const articleCode = require('../retCode/article');
 const articleDB = require('../DB/article');
 const articleTypeDB = require('../DB/articleType');
+const tool = require('../util');
+const date = new Date();
 module.exports={
   async getArticle(ctx, next) {
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.getArticle();
     if (content.length > 0) {
@@ -28,10 +30,32 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.getArticleById(id);
     if (content.length>0) {
+      result.retCode = 1;
+      result.retMsg = articleCode.SUCCESS_GET_ARTICLE;
+      result.root = {
+        Num: content.length,
+        list: content,
+      };
+    } else {
+      result.retMsg = articleCode.ERROR_GET_ARTICLE;
+    }
+    ctx.response.body = result;
+    ctx.body = result;
+  },
+  async getArticleByType(ctx, next) {
+    let id = ctx.params.id;
+    let result = {
+      retCode: 0,
+      retMsg: '',
+      root: { list: [] },
+    };
+    let content = await articleService.getArticleByType(id);
+    
+    if (content.length > 0) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_GET_ARTICLE;
       result.root = {
@@ -49,13 +73,13 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.insertArticle({
       [articleDB.ARTICLE_TITLE]:formData.title,
       [articleDB.ARTICLE_CONTENT]:formData.content,
-      [articleDB.ARTICLE_RELEASE_TIME]: new Date(),
-      [articleDB.ARTICLE_EDIT_TIME]: new Date(),
+      [articleDB.ARTICLE_RELEASE_TIME]: date,
+      [articleDB.ARTICLE_EDIT_TIME]: date,
       //[articleDB.ARTICLE_VISIBILITY]:formData.visibility,
 
     });
@@ -75,7 +99,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.updateArticle({
       [articleDB.ARTICLE_ID]: formData.userId,
@@ -100,7 +124,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.deleteArticle({
       [articleDB.ARTICLE_ID]: formData.ArticleId,
@@ -118,7 +142,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: {list:[]},
     };
     let content = await articleService.getAllArticleType();
     if (content.length > 0) {
@@ -138,7 +162,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: { list: [] },
     };
     let content = await articleService.addArticleType({
       [articleTypeDB.ARTICLE_TYPE]:formData.type,
@@ -160,7 +184,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: {list:[]},
     };
     let content = await articleService.deleteArticleType({
       [articleTypeDB.ARTICLE_TYPE_ID]: formData.ArticleId,
@@ -182,7 +206,7 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: [],
+      root: {list:[]},
     };
     let content = await articleService.deleteArticleType(formData);
     if (content.length > 0) {

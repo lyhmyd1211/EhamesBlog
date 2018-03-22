@@ -1,5 +1,5 @@
 import {
-  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR} from '../action/action-type.js';
+  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE} from '../action/action-type.js';
 import { combineReducers } from 'redux';
 
 const article = (state={articleData:{Num:0,list:[]}},action)=>{
@@ -54,6 +54,14 @@ const getArticleType = (state = {articleType:{}},action)=>{
     return state;
   }
 };
+const getArticleTitle = (state = { articleTitle:{root:{list:[]}}},action)=>{
+  switch (action.type) {
+  case ARTICLE_TITLE:
+    return {articleTitle: action.payload};
+  default:
+    return state;
+  }
+};
 export default combineReducers({
-  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType,
+  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType, getArticleTitle,
 });

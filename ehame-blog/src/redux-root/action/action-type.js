@@ -3,6 +3,8 @@ export const LOGIN_STATE_ERROR = 'login_state_error';//获取登录状态失败
 
 export const ARTICLE_DATA='artical_data';  //博文内容
 export const ARTICLE_DATA_ERROR ='artical_data_error';//获取博文内容失败
+export const ARTICLE_TITLE='artical_title';
+export const ARTICLE_TITLE_ERROR ='artical_title_error';
 export const ARTICLE_TYPE = 'artical_type';  //博文类型
 export const ARTICLE_TYPE_ERROR = 'artical_type_error';//获取博文类型失败
 export const ARTICLE_CONTENT = 'article_content';

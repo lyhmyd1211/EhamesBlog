@@ -56,12 +56,16 @@ let findAllData = function (table) {
 let finAllDataOderBy = function (table,orderBy,rule){
   let _sql = `SELECT * FROM ?? ORDER BY ?? ${rule}`;
   return query(_sql, [table, orderBy]);
-
 };
 
 let findDataById = function (table, id) {
   let _sql = 'SELECT * FROM ?? WHERE id = ? ';
   return query(_sql, [table, id]);
+};
+
+let findDataByCol = function (table,col,value){
+  let _sql = 'SELECT * FROM ?? WHERE ?? = ?';
+  return query(_sql,[table,col,value]);
 };
 
 let findDataByPage = function (table, keys, start, end) {
@@ -104,6 +108,7 @@ module.exports = {
   findAllData,
   finAllDataOderBy,
   findDataById,
+  findDataByCol,
   findDataByPage,
   deleteDataById,
   insertData,

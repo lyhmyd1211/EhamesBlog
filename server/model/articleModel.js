@@ -10,6 +10,20 @@ module.exports = {
     let dataList = await dbUtils.findDataById(articleDB.ARTICLE_TABLE, id);
     return dataList;
   },
+  async getTitleByTypeId(id){
+    let _sql = 'SELECT ??,??,?? FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) ORDER BY ??';
+    return await dbUtils.query(_sql, 
+      [ articleDB.ARTICLE_EDIT_TIME,
+        articleDB.ARTICLE_TITLE,
+        articleDB.ARTICLE_ID,
+        articleDB.ARTICLE_TABLE, 
+        articleDB.ARTICLE_TYPE, 
+        articleDB.ARTICLE_TYPE, 
+        articleTypeDB.ARTICLE_TYPE_TABLE, 
+        articleTypeDB.ARTICLE_TYPE_ID, 
+        id, 
+        articleDB.ARTICLE_EDIT_TIME]);
+  },
   async insertArticle(model) {
     let result = await dbUtils.insertData(articleDB.ARTICLE_TABLE, model);
     return result;
@@ -25,8 +39,8 @@ module.exports = {
   async getAllArticleType(){
     let result = await dbUtils.finAllDataOderBy(articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID,'DESC');
     return result;
-    // let _sql = 'SELECT DISTINCT ?? FROM ??'; 
-    // return await dbUtils.query(_sql, [articleDB.ARTICLE_TYPE,articleDB.ARTICLE_TABLE]);
+    // let _sql = 'SELECT * FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) ORDER BY ??'; 
+    // return await dbUtils.query(_sql, [articleDB.ARTICLE_TABLE, articleDB.ARTICLE_TYPE, articleDB.ARTICLE_TYPE,articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID,id,articleDB.ARTICLE_EDIT_TIME]);
   },
   async addArticleType(model){
     let result = await dbUtils.insertData(articleTypeDB.ARTICLE_TYPE_TABLE, model);
