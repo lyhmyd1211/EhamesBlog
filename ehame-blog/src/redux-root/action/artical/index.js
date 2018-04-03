@@ -44,9 +44,10 @@ export const fetchArticleType=()=> async (dispatch,getState)=>{
     dispatch(getArticleTypeError());
   }
 };
-export const fetchArticleList = (id) => async (dispatch, getState) => {
+export const fetchArticleList = (model) => async (dispatch, getState) => {
+  
   try {
-    await get(`/article/getbyType/${id}`, data => {
+    await get(`/article/getbyType/${model.id}?state=${model.state}`, data => {
       dispatch(getArticleTitleSuccess(data));
     });
   } catch (error) {

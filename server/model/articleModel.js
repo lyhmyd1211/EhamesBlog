@@ -10,8 +10,8 @@ module.exports = {
     let dataList = await dbUtils.findDataById(articleDB.ARTICLE_TABLE, id);
     return dataList;
   },
-  async getTitleByTypeId(id){
-    let _sql = 'SELECT ??,??,?? FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) ORDER BY ??';
+  async getTitleByTypeId(model){
+    let _sql = `SELECT ??,??,?? FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) AND ?? = ${model.state} ORDER BY ??`;
     return await dbUtils.query(_sql, 
       [ articleDB.ARTICLE_EDIT_TIME,
         articleDB.ARTICLE_TITLE,
@@ -21,7 +21,8 @@ module.exports = {
         articleDB.ARTICLE_TYPE, 
         articleTypeDB.ARTICLE_TYPE_TABLE, 
         articleTypeDB.ARTICLE_TYPE_ID, 
-        id, 
+        model.id, 
+        articleDB.ARTICLE_STATE,
         articleDB.ARTICLE_EDIT_TIME]);
   },
   async insertArticle(model) {

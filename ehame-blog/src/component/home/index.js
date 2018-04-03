@@ -22,8 +22,6 @@ export default class Home extends Component {
     }
   };
   render() {
-    console.log('homeprops',this.props);
-    
     const { articleSource } = this.props;
     const ACard = () => {
       if (articleSource.length > 0) {

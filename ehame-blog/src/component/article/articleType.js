@@ -9,10 +9,11 @@ import './writer.less';
 @connect(
   state => ({
     articleType: state.getArticleType.articleType,
+    articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
   dispatch => ({ 
     getTypeData: () => dispatch(fetchArticleType()),
-    getListData: (id) => dispatch(fetchArticleList(id)), 
+    getListData: (model) => dispatch(fetchArticleList(model)), 
   })
 )
 export default class ArticleType extends Component {
@@ -31,8 +32,8 @@ export default class ArticleType extends Component {
   getArticleType() {
     this.props.getTypeData();
   }
-  getArticleList(id){
-    this.props.getListData(id);
+  getArticleList(model){
+    this.props.getListData(model);
   }
 
   addArticleType(body) {
@@ -54,16 +55,23 @@ export default class ArticleType extends Component {
 
   render(){
     const { operation, newType } = this.state;
-    const { articleType } = this.props;
+    const { articleType, articleTitle } = this.props;
+    console.log('articleTitle', this.props.articleTitle);
+    let titleId = '';
+    articleTitle.map((item,index)=>{
+      if (index===0) {
+        titleId = item.id;
+      }
+    });
     const Type = () => {
       if (articleType.root) {
         return articleType.root.list.map((item, index) =>
           <NavLink 
             key={index} 
-            to={'/write/'+item.id}
+            to={'/write/' + item.id}
             activeClassName="active"
             className="article-type-classify"
-            onClick={() => this.getArticleList(item.id)}
+            onClick={() => this.getArticleList({state:0,id:item.id})}
           >{item.type}</NavLink>
         );
       } else {

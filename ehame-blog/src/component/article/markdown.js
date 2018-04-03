@@ -25,6 +25,7 @@ export default class MarkDown extends Component {
       let body = {
         title,
         content,
+        state:1,
       };
       post('/article/write', body, data => {
         if (data.retCode === 1) {

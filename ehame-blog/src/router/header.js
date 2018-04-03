@@ -1,8 +1,45 @@
 import React, { Component } from 'react';
 import { Input, Icon} from 'antd';
+import {connect} from 'react-redux';
+import { fetchArticleType, fetchArticleList } from '../redux-root/action/artical';
 import './header.less';
+@connect(
+  state =>({
+    articleType: state.getArticleType.articleType.root.list,
+    articleTitle: state.getArticleTitle.articleTitle.root.list,
+  }),
+  dispatch =>({
+    getArticle: (model) => dispatch(fetchArticleList(model)),
+    getType: () => dispatch(fetchArticleType()),
+  })
+)
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      defaultType:'1',
+      defaultTitle:'1',
+    };
+  }
+  
+  componentDidMount(){
+    this.props.getType();
+    const { articleType, articleTitle } = this.props;
+    articleType.map((item, index) => {
+      if (index===0) {
+        this.setState({ defaultType:item.id});
+        this.props.getArticle({state:1,id:item.id});
+      }
+      
+    });
+    articleTitle.map((item, index) => {
+      if (index===0) {
+        this.setState({ defaultTitle: item.id });
+      }
+    });
+  }
   render(){
+    const { defaultTitle, defaultType}=this.state;
     return (
       <header className="base-header">
         <a className="header-home" href="#/home">Ehame</a>
@@ -12,7 +49,7 @@ class Header extends Component {
             <a className="header-search-icon"><Icon type="search" /></a>
           </div>
         </div>
-        <a className="header-write-article" href="#/write">
+        <a className="header-write-article" href={'#/write/' + defaultType+'/detail/' + defaultTitle}>
           写文章
         </a>
       </header>

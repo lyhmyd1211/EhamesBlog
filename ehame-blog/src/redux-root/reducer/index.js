@@ -44,7 +44,7 @@ const getArticleContent = (state = { content: '' }, action) => {
     return state;
   }
 };
-const getArticleType = (state = {articleType:{}},action)=>{
+const getArticleType = (state = {articleType:{root:{list:[]}}},action)=>{
   switch (action.type) {
   case ARTICLE_TYPE:
     return {articleType:action.payload}; 

@@ -19,7 +19,7 @@ export default class ArticleCard extends Component{
               {formatMoment(content.editTime, 'month')}
             </div>
             <div className="card-time-date">
-              {formatMoment(content.editTime, 'date')}
+              {formatMoment(content.editTime, 'date')||''}
             </div>
             <div className="card-time-year">
               {formatMoment(content.editTime, 'year')}

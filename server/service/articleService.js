@@ -8,8 +8,8 @@ const article = {
     let content = await articleModel.getArticleById(id);
     return content;
   },
-  async getArticleByType(id) {
-    let content = await articleModel.getTitleByTypeId(id);
+  async getArticleByType(model) {
+    let content = await articleModel.getTitleByTypeId(model);
     return content;
   },
   async insertArticle(formData){

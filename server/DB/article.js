@@ -7,7 +7,7 @@ module.exports = {
   ARTICLE_CONTENT:'content',
   ARTICLE_PICTURE:'picture',
   ARTICLE_DESP:'desp',
-  ARTICLE_VISIBILITY:'visibility',
+  ARTICLE_STATE:'state',
   ARTICLE_RELEASE_TIME:'release_time',
   ARTICLE_EDIT_TIME:'edit_time',
   ARTICLE_TYPE:'type',
