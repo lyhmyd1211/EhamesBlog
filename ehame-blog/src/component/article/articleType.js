@@ -33,7 +33,15 @@ export default class ArticleType extends Component {
     this.props.getTypeData();
   }
   getArticleList(model){
+    const{articleTitle} = this.props;
     this.props.getListData(model);
+    if (articleTitle[0].id) {
+      console.log('modelid',model.id);
+      console.log('articleTitle', articleTitle[0].id);
+      window.location.hash = `/write/ + ${model.id}+/detail/+${articleTitle[0].id}`;
+      //window.location.hash = '/write/detail';
+    }
+    
   }
 
   addArticleType(body) {
@@ -55,14 +63,7 @@ export default class ArticleType extends Component {
 
   render(){
     const { operation, newType } = this.state;
-    const { articleType, articleTitle } = this.props;
-    console.log('articleTitle', this.props.articleTitle);
-    let titleId = '';
-    articleTitle.map((item,index)=>{
-      if (index===0) {
-        titleId = item.id;
-      }
-    });
+    const { articleType } = this.props;
     const Type = () => {
       if (articleType.root) {
         return articleType.root.list.map((item, index) =>

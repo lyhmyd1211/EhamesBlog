@@ -17,17 +17,30 @@ export default class ArticleList extends Component {
     super(props);
     this.state={
       list:[],
-      match:this.props.match,
+    //  match:this.props.match,
     };
   }
   componentDidMount(){
     this.getArticleTitle();
   }
   getArticleTitle(){
-    this.props.getArticleTitle({state:0,id:this.state.match.params.id});
+    // console.log('选中id', this.state.match.params.id);
+    //console.log('propsId', this.props.match.params.id);
+    const {match,articleTitle} = this.props;
+    console.log('asdasdasd',articleTitle);
+    
+    this.props.getArticleTitle({state:0,id:match.params.id});
+    if (articleTitle[0]) {
+      window.location.hash = `#/write/ + ${match.params.id}+/detail/+${articleTitle[0].id}`;
+    }
+   
   }
   add=()=>{
-    let body = {title:new Date().getDate(),state:2};        
+    let body = {
+      title: new Date().toLocaleDateString(),
+      state:2,
+      type: this.props.match.params.id,
+    };        
     post('/article/write', body, data => {
       if (data.retCode === 1) {
         this.getArticleTitle();
@@ -37,8 +50,8 @@ export default class ArticleList extends Component {
     });
   }
   render(){
-    const { match} = this.state;
-    const { articleTitle} = this.props;
+    // const { match} = this.state;
+    const { articleTitle, match} = this.props;
     const List = ()=>{
       if (articleTitle) {
         return articleTitle.map((item,index)=>(

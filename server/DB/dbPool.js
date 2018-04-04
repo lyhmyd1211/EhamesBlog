@@ -2,6 +2,8 @@ const mysql = require('mysql');
 const config = require('../../config');
 const tools = require('../util');
 const pool = mysql.createPool(config.database);
+let DESC = 'DESC';
+let ASC = 'ASC';
 let query = function (sql, values) {
   return new Promise((resolve, reject) => {
     pool.getConnection(function (err, connection) {
@@ -53,8 +55,8 @@ let findAllData = function (table) {
   let _sql = 'SELECT * FROM ??';
   return query(_sql, [table]);
 };
-let finAllDataOderBy = function (table,orderBy,rule){
-  let _sql = `SELECT * FROM ?? ORDER BY ?? ${rule}`;
+let finAllDataOderBy = function (table,orderBy){
+  let _sql = 'SELECT * FROM ?? ORDER BY ?? DESC';
   return query(_sql, [table, orderBy]);
 };
 
@@ -115,4 +117,6 @@ module.exports = {
   updateData,
   select,
   count,
+  DESC,
+  ASC,
 };

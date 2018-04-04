@@ -30,7 +30,7 @@ export default class MarkDown extends Component {
       post('/article/write', body, data => {
         if (data.retCode === 1) {
           Message.success(data.retMsg);
-          window.location.hash = '#/home';
+          window.location.hash = '/home';
         } else {
           Message.error(data.error);
         }
@@ -39,6 +39,8 @@ export default class MarkDown extends Component {
   }
   render(){
     const {title} = this.state;
+    console.log('markDownID',this.props);
+    
     return (
       <div>
         <Input onChange={(e) => this.setState({ title: e.target.value })} value={title} />

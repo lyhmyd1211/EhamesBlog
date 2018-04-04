@@ -50,7 +50,7 @@ module.exports={
   },
   async getArticleByType(ctx, next) {
     let id = ctx.params.id;
-    let model = Object.assign(ctx.request.body,{id});
+    let model = Object.assign(ctx.query,{id});
     let result = {
       retCode: 0,
       retMsg: '',
@@ -83,7 +83,8 @@ module.exports={
       [articleDB.ARTICLE_CONTENT]:formData.content,
       [articleDB.ARTICLE_RELEASE_TIME]: date,
       [articleDB.ARTICLE_EDIT_TIME]: date,
-      [articleDB.ARTICLE_STATE]:formData.articleState,
+      [articleDB.ARTICLE_TYPE]:formData.type,
+      [articleDB.ARTICLE_STATE]:formData.state,
 
     });
     if (content) {

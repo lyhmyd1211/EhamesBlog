@@ -23,23 +23,19 @@ class Header extends Component {
   }
   
   componentDidMount(){
-    this.props.getType();
     const { articleType, articleTitle } = this.props;
-    articleType.map((item, index) => {
-      if (index===0) {
-        this.setState({ defaultType:item.id});
-        this.props.getArticle({state:1,id:item.id});
-      }
-      
+    this.props.getType(()=>{
+      this.setState({ defaultType: articleType[0].id });
+      this.props.getArticle({ state: 1, id: articleType[0].id }, () => {
+        this.setState({ defaultTitle: articleTitle[0].id });
+      });
     });
-    articleTitle.map((item, index) => {
-      if (index===0) {
-        this.setState({ defaultTitle: item.id });
-      }
-    });
+    
   }
   render(){
     const { defaultTitle, defaultType}=this.state;
+    console.log('defaultType', defaultType);
+    console.log('articleTitle', this.props.articleTitle);
     return (
       <header className="base-header">
         <a className="header-home" href="#/home">Ehame</a>

@@ -3,29 +3,60 @@ const articleDB = require('../DB/article');
 const articleTypeDB = require('../DB/articleType');
 module.exports = {
   async getAllArticle() {
-    let dataList = await dbUtils.finAllDataOderBy(articleDB.ARTICLE_TABLE, articleDB.ARTICLE_EDIT_TIME,'DESC');
+    let dataList = await dbUtils.finAllDataOderBy(articleDB.ARTICLE_TABLE, articleDB.ARTICLE_EDIT_TIME,);
     return dataList;
   },
   async getArticleById(id) {
     let dataList = await dbUtils.findDataById(articleDB.ARTICLE_TABLE, id);
     return dataList;
   },
-  async getTitleByTypeId(model){
-    let _sql = `SELECT ??,??,?? FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) AND ?? = ${model.state} ORDER BY ??`;
-    return await dbUtils.query(_sql, 
-      [ articleDB.ARTICLE_EDIT_TIME,
-        articleDB.ARTICLE_TITLE,
-        articleDB.ARTICLE_ID,
-        articleDB.ARTICLE_TABLE, 
-        articleDB.ARTICLE_TYPE, 
-        articleDB.ARTICLE_TYPE, 
-        articleTypeDB.ARTICLE_TYPE_TABLE, 
-        articleTypeDB.ARTICLE_TYPE_ID, 
-        model.id, 
-        articleDB.ARTICLE_STATE,
-        articleDB.ARTICLE_EDIT_TIME]);
+  // async getTitleByTypeId(model){
+  //   let _sql = `SELECT ??,??,?? FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) AND ?? = ${model.state} ORDER BY ??`;
+  //   return await dbUtils.query(_sql, 
+  //     [ articleDB.ARTICLE_EDIT_TIME,
+  //       articleDB.ARTICLE_TITLE,
+  //       articleDB.ARTICLE_ID,
+  //       articleDB.ARTICLE_TABLE, 
+  //       articleDB.ARTICLE_TYPE, 
+  //       articleDB.ARTICLE_TYPE, 
+  //       articleTypeDB.ARTICLE_TYPE_TABLE, 
+  //       articleTypeDB.ARTICLE_TYPE_ID, 
+  //       model.id, 
+  //       articleDB.ARTICLE_STATE,
+  //       articleDB.ARTICLE_EDIT_TIME]);
+  // },
+  async getTitleByTypeId(model) {
+    console.log('model',model);
+    
+    if (model.state!=='0') {
+      let _sql = 'SELECT ??,??,?? FROM ?? WHERE ?? = ? AND ?? = ? ORDER BY ?? DESC';
+      return await dbUtils.query(_sql,
+        [articleDB.ARTICLE_EDIT_TIME,
+          articleDB.ARTICLE_TITLE,
+          articleDB.ARTICLE_ID,
+          articleDB.ARTICLE_TABLE,
+          articleDB.ARTICLE_TYPE,
+          model.id,
+          articleDB.ARTICLE_STATE,
+          model.state,
+          articleDB.ARTICLE_EDIT_TIME]);
+    }
+    else{
+      let _sql = 'SELECT ??,??,?? FROM ?? WHERE ?? = ? ORDER BY ?? DESC';
+      return await dbUtils.query(_sql,
+        [articleDB.ARTICLE_EDIT_TIME,
+          articleDB.ARTICLE_TITLE,
+          articleDB.ARTICLE_ID,
+          articleDB.ARTICLE_TABLE,
+          articleDB.ARTICLE_TYPE,
+          model.id,
+          articleDB.ARTICLE_EDIT_TIME]);
+    }
+    
   },
   async insertArticle(model) {
+    console.log('insertModel',model);
+    
     let result = await dbUtils.insertData(articleDB.ARTICLE_TABLE, model);
     return result;
   },
@@ -38,7 +69,7 @@ module.exports = {
     return result;
   },
   async getAllArticleType(){
-    let result = await dbUtils.finAllDataOderBy(articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID,'DESC');
+    let result = await dbUtils.finAllDataOderBy(articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID);
     return result;
     // let _sql = 'SELECT * FROM ?? WHERE ?? = (SELECT ?? FROM ?? WHERE ?? = ?) ORDER BY ??'; 
     // return await dbUtils.query(_sql, [articleDB.ARTICLE_TABLE, articleDB.ARTICLE_TYPE, articleDB.ARTICLE_TYPE,articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID,id,articleDB.ARTICLE_EDIT_TIME]);
