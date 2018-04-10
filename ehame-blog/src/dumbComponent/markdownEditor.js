@@ -12,6 +12,7 @@ import './markdownEditor.less';
 @connect(
   state => ({
     articleContent: state.getArticleById.content,
+    detail: state.getArticleById,
   }),
   dispatch => ({
     setArticleContent: (n) => dispatch(ArticleContent(n)),
@@ -21,7 +22,7 @@ export default class Markdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: this.props.articleContent,
+      content: this.props.detail.content,
     };
   }
 
@@ -140,20 +141,17 @@ export default class Markdown extends Component {
         });
       },
     });
-    //this.smde.value();  
+    this.smde.value(this.state.content || ''); 
   }
-  componentWillReceiveProps(next) {
-    console.log('articleContent', next.articleContent);
-    
-    if (next.articleContent !== this.state.content && this.smde) {
-      this.smde.value(next.articleContent||'');
-    }
-  }
+  
   componentWillUnmount() {
     this.smde.toTextArea();
     this.smde = null;
   }
   render() {
+    if (this.smde) {
+      this.smde.value(this.props.articleContent || ''); 
+    }
     return (
       <textarea id="editor" />
     );

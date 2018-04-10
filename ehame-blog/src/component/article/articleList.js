@@ -9,6 +9,8 @@ import './writer.less';
 @connect(
   state => ({
     articleTitle: state.getArticleTitle.articleTitle.root.list,
+    currentType: state.getCurrentTypeId,
+    currentArticle: state.getCurrentArticleId,
   }),
   dispatch => ({ 
     getArticleTitle: (n) => dispatch(fetchArticleTitleList(n)),
@@ -27,15 +29,18 @@ export default class ArticleList extends Component {
     this.getArticleTitle();
   }
   getArticleTitle= async()=>{
-    const locationTo=()=>{
-      if (this.props.articleTitle[0]) {
-        window.location.hash = `#/write/${this.props.match.params.id}/detail/${this.props.articleTitle[0].id}`;
-      }
-    };
+    // const locationTo=()=>{
+    //   window.location.hash = `#/write/${this.props.match.params.id}/detail/${this.props.articleTitle[0].id}`;
+    // };
     try {
-      await this.props.getArticleTitle({state:0,id:this.props.match.params.id});
-      await this.props.getArticleDetail(this.props.articleTitle[0].id);
-      await locationTo();
+      await this.props.getArticleTitle({ state: 0, id: this.props.match.params.id});
+      if (this.props.articleTitle[0]) {
+        console.log('jinru',);
+        
+        await this.props.getArticleDetail(this.props.articleTitle[0].id);
+        //await locationTo();
+      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -57,14 +62,15 @@ export default class ArticleList extends Component {
     });
   }
   render(){
-    // const { match} = this.state;
-    const { articleTitle, match} = this.props;
+    const { articleTitle, currentType} = this.props;
+    console.log('listArticle', this.props.currentArticle);
+    console.log('listType', this.props.currentType);
     const List = ()=>{
       if (articleTitle) {
         return articleTitle.map((item,index)=>(
           <NavLink 
             key={index}
-            to={'/write/' + match.params.id+'/detail/'+item.id}
+            to={'/write/' + currentType+'/detail/'+item.id}
             activeClassName="active"
             className="article-detail-classify"
             onClick={()=>this.props.getArticleDetail(item.id)}

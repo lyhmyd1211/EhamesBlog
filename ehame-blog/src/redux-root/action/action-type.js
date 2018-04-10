@@ -11,6 +11,9 @@ export const ARTICLE_CONTENT = 'article_content';
 export const ARTICLE_DETAIL_SUCCESS = 'article_detail_success';
 export const ARTICLE_DETAIL_ERROR = 'article_detail_error';
 
+export const CURRENT_TYPE_ID = 'current_type_id';//当前文章类型ID
+export const CURRENT_ARTICLE_ID ='current_article_id';//当前文章ID
+
 export const IS_SCROLL_UP = 'is_scroll_up';//滚动条是否向上
 export const SCROLL_PERCENT ='scroll_percent'; //滚动条所在百分比
 

@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { Input, Message, Icon } from 'antd';
 
 import { connect } from 'react-redux';
-import { fetchArticleType, fetchArticleTitleList, fetchArticleById } from '../../redux-root/action/artical';
+import { fetchArticleType, fetchArticleTitleList, fetchArticleById, setCurrentTypeId, setCurrentArticleId } from '../../redux-root/action/artical';
 import { NavLink } from 'react-router-dom';
 import { post } from '../../fetchData';
 import './writer.less';
 @connect(
   state => ({
-    articleType: state.getArticleType.articleType,
+    articleType: state.getArticleType.articleType.root.list,
     articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
   dispatch => ({
+    setCurrentArticle: (n) => dispatch(setCurrentArticleId(n)),
+    setCurrentType: (n) => dispatch(setCurrentTypeId(n)),
     getTypeData: () => dispatch(fetchArticleType()),
     getListData: (model) => dispatch(fetchArticleTitleList(model)),
     getArticleDetail: (n) => dispatch(fetchArticleById(n)),
@@ -27,22 +29,48 @@ export default class ArticleType extends Component {
     };
   }
   componentDidMount() {
-    this.getArticleType();
+    this.getData();
   }
-
-  getArticleType() {
-    this.props.getTypeData();
+  setCurrentId(type = '', article = '') {
+    this.props.setCurrentType(type);
+    this.props.setCurrentArticle(article);
+  }
+  getData = async () => {
+    try {
+      const transformTo = (model) => {
+        window.location.hash = `/write/${this.props.articleType[0].id}/detail/${this.props.articleTitle[0].id}`;
+      };
+      const locationFinal = (model) => {
+        window.location.hash = `/write/${this.props.articleType[0].id}`;
+      };
+      await this.props.getTypeData();
+      await this.props.getListData({ state: 0, id: this.props.articleType[0] ? this.props.articleType[0].id : '' });
+      if (this.props.articleType[0] && this.props.articleTitle[0]) {
+        await this.setCurrentId(this.props.articleType[0].id, this.props.articleTitle[0].id);
+        await transformTo();
+      } else if (this.props.articleType[0]) {
+        await this.setCurrentId(this.props.articleType[0].id, '');
+        await locationFinal();
+      }
+     
+    } catch (error) {
+      console.error('err', error);
+    }
   }
   getArticleList = async (model) => {
-    const transformTo=(model)=>{
-      if (this.props.articleTitle[0]) {
-        window.location.hash = `/write/${model.id}/detail/${this.props.articleTitle[0].id}`;
-      }
+    const transformTo = (model) => {
+      window.location.hash = `/write/${model.id}/detail/${this.props.articleTitle[0].id}`;
     };
     try {
       await this.props.getListData(model);
-      await this.props.getArticleDetail(this.props.articleTitle[0].id);
-      await transformTo(model); 
+      if (this.props.articleTitle[0]) {
+        
+        await this.props.getArticleDetail(this.props.articleTitle[0].id);
+        await transformTo(model);
+        await this.setCurrentId(model.id, this.props.articleTitle[0].id);
+      }else{
+        await this.setCurrentId(model.id, '');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +84,7 @@ export default class ArticleType extends Component {
       post('/article/addType', { type: body }, data => {
         if (data.retCode === 1) {
           this.setState({ operation: false });
-          this.getArticleType();
+          this.getData();
         } else {
           Message.error(data.error);
         }
@@ -69,8 +97,8 @@ export default class ArticleType extends Component {
     const { operation, newType } = this.state;
     const { articleType } = this.props;
     const Type = () => {
-      if (articleType.root) {
-        return articleType.root.list.map((item, index) =>
+      if (articleType) {
+        return articleType.map((item, index) =>
           <NavLink
             key={index}
             to={'/write/' + item.id}

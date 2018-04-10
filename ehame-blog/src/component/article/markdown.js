@@ -9,6 +9,8 @@ import { ArticleContent } from '../../redux-root/action/artical';
   state => ({
     detail: state.getArticleById,
     model: state.getArticleContent,
+    currentType: state.getCurrentTypeId,
+    currentArticle: state.getCurrentArticleId,
   }),
   dispatch => ({
     setArticleContent: (n) => dispatch(ArticleContent(n)),
@@ -38,15 +40,18 @@ export default class MarkDown extends Component {
   componentWillReceiveProps(next) {
     if (next.model.submit) {
       const { title } = this.state;
-      let content = next.content;
+      let content = next.model.content;
       let body = {
+        id: next.currentArticle,
         title,
         content,
+        type: next.currentType,
         state:1,
       };
-      post('/article/write', body, data => {
+      post('/article/update', body, data => {
         if (data.retCode === 1) {
           Message.success(data.retMsg);
+          this.props.setArticleContent({ content: '', submit: false });
           window.location.hash = '/home';
         } else {
           Message.error(data.error);

@@ -64,8 +64,10 @@ module.exports = {
    * 更新文章
    * @param {*} model 文章实体类，包括文章id
    */
-  async updateArticle(model) {
-    let result = await dbUtils.updateData(articleDB.ARTICLE_TABLE, model);
+  async updateArticle(model,id) {
+    console.log('model', model);
+    console.log('id', id);
+    let result = await dbUtils.updateData(articleDB.ARTICLE_TABLE, model,id);
     return result;
   },
 
@@ -108,8 +110,10 @@ module.exports = {
    * 更新文章类型          TODO
    * @param {*} model 文章类型实体类
    */
-  async updateArticleType(model){
-    let result = await dbUtils.updateData(articleTypeDB.ARTICLE_TYPE_TABLE,model);
+  async updateArticleType(model,id){
+    console.log('model',model);
+    console.log('id',id);
+    let result = await dbUtils.updateData(articleTypeDB.ARTICLE_TYPE_TABLE,model,id);
     return result;
   },
 };

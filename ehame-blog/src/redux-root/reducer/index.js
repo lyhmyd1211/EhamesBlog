@@ -1,5 +1,5 @@
 import {
-  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR} from '../action/action-type.js';
+  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR, ARTICLE_TITLE_ERROR, CURRENT_TYPE_ID, CURRENT_ARTICLE_ID} from '../action/action-type.js';
 import { combineReducers } from 'redux';
 
 /**
@@ -85,10 +85,13 @@ const getArticleTitle = (state = { articleTitle:{root:{list:[]}}},action)=>{
   switch (action.type) {
   case ARTICLE_TITLE:
     return {articleTitle: action.payload};
+  case ARTICLE_TITLE_ERROR:
+    return { articleTitle: { root: { list: [] } } };
   default:
     return state;
   }
 };
+
 /**
  * 根据id获取文章详情
  */
@@ -102,7 +105,31 @@ const getArticleById = (state = {title:'',content:''}, action) => {
     return state;
   }
 };
+
+/**
+ * 获取当前文章类型id
+ */
+const getCurrentTypeId = (state='',action)=>{
+  switch (action.type) {
+  case CURRENT_TYPE_ID:
+    return action.payload;  
+  default:
+    return state;
+  }
+};
+
+/**
+ * 获取当前文章id
+ */
+const getCurrentArticleId = (state = '', action) => {
+  switch (action.type) {
+  case CURRENT_ARTICLE_ID:
+    return action.payload;
+  default:
+    return state;
+  }
+};
 export default combineReducers({
-  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType, getArticleTitle, getArticleById,
+  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType, getArticleTitle, getArticleById, getCurrentTypeId, getCurrentArticleId,
 });
 

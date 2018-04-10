@@ -16,8 +16,8 @@ const article = {
     let content = await articleModel.insertArticle(formData);
     return content;
   },
-  async updateArticle(formData) {
-    let content = await articleModel.updateArticle(formData);
+  async updateArticle(formData,id) {
+    let content = await articleModel.updateArticle(formData,id);
     return content;
   },
   async deleteArticle(id) {

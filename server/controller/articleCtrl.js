@@ -106,14 +106,10 @@ module.exports={
       root: { list: [] },
     };
     let content = await articleService.updateArticle({
-      [articleDB.ARTICLE_ID]: formData.userId,
       [articleDB.ARTICLE_TITLE]: formData.title,
       [articleDB.ARTICLE_CONTENT]: formData.content,
-      [articleDB.ARTICLE_PICTURE]: formData.picture,
-      [articleDB.ARTICLE_DESP]: formData.desp,
-      [articleDB.ARTICLE_VISIBILITY]: formData.visibility,
-
-    });
+      [articleDB.ARTICLE_TYPE]: formData.type,
+    }, formData.id);
     if (content) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_UPDATE_ARTICLE;

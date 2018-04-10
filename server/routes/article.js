@@ -9,6 +9,7 @@ const routers = router
   .get('/getTitlebyTypeId/:id', articleCtrl.getTitleByTypeId)
   .get('/getType',articleCtrl.getArticleType)
   .post('/write', articleCtrl.insertArticle)
+  .post('/update', articleCtrl.updateArticle)
   .post('/addType', articleCtrl.addArticleType)
   .post('/deleteType', articleCtrl.deleteArticleType)
   .post('/updateType', articleCtrl.updateArticleType);
