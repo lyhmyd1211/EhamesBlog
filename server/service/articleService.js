@@ -8,7 +8,7 @@ const article = {
     let content = await articleModel.getArticleById(id);
     return content;
   },
-  async getArticleByType(model) {
+  async getTitleByTypeId(model) {
     let content = await articleModel.getTitleByTypeId(model);
     return content;
   },

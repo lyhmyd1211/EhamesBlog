@@ -4,22 +4,39 @@ import MarkdownEditor from '../../dumbComponent/markdownEditor';
 import { connect } from 'react-redux';
 import { post } from '../../fetchData';
 import './writer.less';
+import { ArticleContent } from '../../redux-root/action/artical';
 @connect(
   state => ({
-    content: state.getArticleContent.content,
+    detail: state.getArticleById,
+    model: state.getArticleContent,
   }),
+  dispatch => ({
+    setArticleContent: (n) => dispatch(ArticleContent(n)),
+  })
 )
 export default class MarkDown extends Component {
   constructor(props) {
     super(props);
     this.state={
-      content: this.props.content,
-      title:'',
+      //content:'',
+      content: this.props.detail.content,
+      title:this.props.detail.title,
     };
   }
   
+  componentDidMount(){
+    this.getData();
+  }
+  getData=()=>{
+    this.setState({
+      content: this.props.detail.content,
+      title: this.props.detail.title,
+    });
+    
+  }
+
   componentWillReceiveProps(next) {
-    if (next.content !== this.state.content) {
+    if (next.model.submit) {
       const { title } = this.state;
       let content = next.content;
       let body = {
@@ -36,11 +53,12 @@ export default class MarkDown extends Component {
         }
       });
     }
+    if (next.detail.title !==  this.state.detail) {
+      this.setState({title:next.detail.title});
+    }
   }
   render(){
     const {title} = this.state;
-    console.log('markDownID',this.props);
-    
     return (
       <div>
         <Input onChange={(e) => this.setState({ title: e.target.value })} value={title} />

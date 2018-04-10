@@ -48,7 +48,7 @@ module.exports={
     ctx.response.body = result;
     ctx.body = result;
   },
-  async getArticleByType(ctx, next) {
+  async getTitleByTypeId(ctx, next) {
     let id = ctx.params.id;
     let model = Object.assign(ctx.query,{id});
     let result = {
@@ -56,7 +56,7 @@ module.exports={
       retMsg: '',
       root: { list: [] },
     };
-    let content = await articleService.getArticleByType(model);
+    let content = await articleService.getTitleByTypeId(model);
     
     if (content.length > 0) {
       result.retCode = 1;

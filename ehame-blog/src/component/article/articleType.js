@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {Input, Message } from 'antd';
+import { Input, Message, Icon } from 'antd';
 
 import { connect } from 'react-redux';
-import { fetchArticleType, fetchArticleList } from '../../redux-root/action/artical';
+import { fetchArticleType, fetchArticleTitleList, fetchArticleById } from '../../redux-root/action/artical';
 import { NavLink } from 'react-router-dom';
 import { post } from '../../fetchData';
 import './writer.less';
@@ -11,15 +11,16 @@ import './writer.less';
     articleType: state.getArticleType.articleType,
     articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
-  dispatch => ({ 
+  dispatch => ({
     getTypeData: () => dispatch(fetchArticleType()),
-    getListData: (model) => dispatch(fetchArticleList(model)), 
+    getListData: (model) => dispatch(fetchArticleTitleList(model)),
+    getArticleDetail: (n) => dispatch(fetchArticleById(n)),
   })
 )
 export default class ArticleType extends Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       content: this.props.content,
       operation: false,
       newType: '',
@@ -32,16 +33,19 @@ export default class ArticleType extends Component {
   getArticleType() {
     this.props.getTypeData();
   }
-  getArticleList(model){
-    const{articleTitle} = this.props;
-    this.props.getListData(model);
-    if (articleTitle[0].id) {
-      console.log('modelid',model.id);
-      console.log('articleTitle', articleTitle[0].id);
-      window.location.hash = `/write/ + ${model.id}+/detail/+${articleTitle[0].id}`;
-      //window.location.hash = '/write/detail';
+  getArticleList = async (model) => {
+    const transformTo=(model)=>{
+      if (this.props.articleTitle[0]) {
+        window.location.hash = `/write/${model.id}/detail/${this.props.articleTitle[0].id}`;
+      }
+    };
+    try {
+      await this.props.getListData(model);
+      await this.props.getArticleDetail(this.props.articleTitle[0].id);
+      await transformTo(model); 
+    } catch (error) {
+      console.log(error);
     }
-    
   }
 
   addArticleType(body) {
@@ -59,20 +63,20 @@ export default class ArticleType extends Component {
       });
     }
   }
-  
 
-  render(){
+
+  render() {
     const { operation, newType } = this.state;
     const { articleType } = this.props;
     const Type = () => {
       if (articleType.root) {
         return articleType.root.list.map((item, index) =>
-          <NavLink 
-            key={index} 
+          <NavLink
+            key={index}
             to={'/write/' + item.id}
             activeClassName="active"
             className="article-type-classify"
-            onClick={() => this.getArticleList({state:0,id:item.id})}
+            onClick={() => this.getArticleList({ state: 0, id: item.id })}
           >{item.type}</NavLink>
         );
       } else {
@@ -87,7 +91,7 @@ export default class ArticleType extends Component {
           </a>
         </div>
         <div className="btn-new-type" onClick={() => this.setState({ operation: true })}>
-          <i className="fa fa-plus"/>
+          <Icon type="plus-circle-o" />
           <span>新建分类</span>
         </div>
         <div className={operation ? 'new-type-operation-active' : 'new-type-operation'}>
@@ -96,10 +100,10 @@ export default class ArticleType extends Component {
           <div className="btn-type-ok" onClick={this.addArticleType.bind(this, newType)}>提交</div>
         </div>
         <nav className="type-list">
-          <Type/>
+          <Type />
         </nav>
       </div>
     );
   }
-  
+
 }

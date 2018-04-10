@@ -19,7 +19,6 @@ export default class Detail extends Component{
         this.setState({
           content:data.root.list[0],    
         });
-               
       }
     });
   }

@@ -3,25 +3,32 @@ import SimpleMDE from 'simplemde';
 import marked from 'marked';
 import highlight from 'highlight.js';
 
-import {connect} from 'react-redux';
-import { ArticleContent} from '../redux-root/action/artical';
+import { connect } from 'react-redux';
+import { ArticleContent } from '../redux-root/action/artical';
 
 // import { guid } from '../util';
 import './markdownEditor.less';
 
 @connect(
-  state=>({
-    articleContent:state.getArticleContent.content,  
+  state => ({
+    articleContent: state.getArticleById.content,
   }),
-  dispatch=>({
+  dispatch => ({
     setArticleContent: (n) => dispatch(ArticleContent(n)),
   })
 )
 export default class Markdown extends Component {
-  componentDidMount(){
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: this.props.articleContent,
+    };
+  }
+
+  componentDidMount() {
     this.smde = new SimpleMDE({
       element: document.getElementById('editor').childElementCount,
-      spellChecker:false,
+      spellChecker: false,
       autofocus: true,
       autosave: {
         enabled: true,
@@ -31,7 +38,7 @@ export default class Markdown extends Component {
       renderingConfig: {
         codeSyntaxHighlighting: true,
       },
-      toolbar:[
+      toolbar: [
         {
           name: 'Blod',
           action: SimpleMDE.toggleBold,
@@ -92,9 +99,8 @@ export default class Markdown extends Component {
 
         {
           name: 'post-article',
-          action:(editor)=>{
-            console.log('editor',editor.value());
-            this.props.setArticleContent(editor.value());
+          action: (editor) => {
+            this.props.setArticleContent({ content: editor.value(), submit: true });
           },
           className: 'fa-custom-post',
           title: '发布文章',
@@ -134,18 +140,20 @@ export default class Markdown extends Component {
         });
       },
     });
+    //this.smde.value();  
+  }
+  componentWillReceiveProps(next) {
+    console.log('articleContent', next.articleContent);
     
+    if (next.articleContent !== this.state.content && this.smde) {
+      this.smde.value(next.articleContent||'');
+    }
   }
-  handleChange(value) {
-    this.setState({ text: value });
-  }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.smde.toTextArea();
     this.smde = null;
   }
   render() {
-    console.log('porps',this.props);
-    console.log('this.value', this.smde);
     return (
       <textarea id="editor" />
     );

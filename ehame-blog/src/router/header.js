@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Icon} from 'antd';
 import {connect} from 'react-redux';
-import { fetchArticleType, fetchArticleList } from '../redux-root/action/artical';
+import { fetchArticleType, fetchArticleTitleList } from '../redux-root/action/artical';
 import './header.less';
 @connect(
   state =>({
@@ -9,7 +9,7 @@ import './header.less';
     articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
   dispatch =>({
-    getArticle: (model) => dispatch(fetchArticleList(model)),
+    getArticle: (model) => dispatch(fetchArticleTitleList(model)),
     getType: () => dispatch(fetchArticleType()),
   })
 )
@@ -17,25 +17,28 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state={
-      defaultType:'1',
-      defaultTitle:'1',
+      defaultType:'',
+      defaultTitle:'',
     };
   }
   
   componentDidMount(){
-    const { articleType, articleTitle } = this.props;
-    this.props.getType(()=>{
-      this.setState({ defaultType: articleType[0].id });
-      this.props.getArticle({ state: 1, id: articleType[0].id }, () => {
-        this.setState({ defaultTitle: articleTitle[0].id });
-      });
-    });
+    this.getData();
+  }
+  getData = async  ()=>{
+    try {
+      await this.props.getType();
+      await this.setState({ defaultType: this.props.articleType[0]?this.props.articleType[0].id:''});
+      await this.props.getArticle({ state: 1, id: this.props.articleType[0]?this.props.articleType[0].id:''});
+      await this.setState({ defaultTitle: this.props.articleTitle[0]?this.props.articleTitle[0].id:''});
+    } catch (error) {
+      console.error('err',error);
+    }
     
   }
+
   render(){
     const { defaultTitle, defaultType}=this.state;
-    console.log('defaultType', defaultType);
-    console.log('articleTitle', this.props.articleTitle);
     return (
       <header className="base-header">
         <a className="header-home" href="#/home">Ehame</a>

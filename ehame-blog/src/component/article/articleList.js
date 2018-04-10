@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Col, Message } from 'antd';
+import { Col, Message, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { NavLink, Route } from 'react-router-dom';
-import { fetchArticleList } from '../../redux-root/action/artical';
+import { fetchArticleTitleList, fetchArticleById } from '../../redux-root/action/artical';
 import Markdown from './markdown';
 import { post } from '../../fetchData';
 import './writer.less';
@@ -10,31 +10,38 @@ import './writer.less';
   state => ({
     articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
-  dispatch => ({ getArticleTitle: (n) => dispatch(fetchArticleList(n))})
+  dispatch => ({ 
+    getArticleTitle: (n) => dispatch(fetchArticleTitleList(n)),
+    getArticleDetail: (n) => dispatch(fetchArticleById(n)),
+  })
 )
 export default class ArticleList extends Component {
   constructor(props) {
     super(props);
     this.state={
       list:[],
-    //  match:this.props.match,
+      articleTitle:this.props.articleTitle,
     };
   }
   componentDidMount(){
     this.getArticleTitle();
   }
-  getArticleTitle(){
-    // console.log('选中id', this.state.match.params.id);
-    //console.log('propsId', this.props.match.params.id);
-    const {match,articleTitle} = this.props;
-    console.log('asdasdasd',articleTitle);
-    
-    this.props.getArticleTitle({state:0,id:match.params.id});
-    if (articleTitle[0]) {
-      window.location.hash = `#/write/ + ${match.params.id}+/detail/+${articleTitle[0].id}`;
+  getArticleTitle= async()=>{
+    const locationTo=()=>{
+      if (this.props.articleTitle[0]) {
+        window.location.hash = `#/write/${this.props.match.params.id}/detail/${this.props.articleTitle[0].id}`;
+      }
+    };
+    try {
+      await this.props.getArticleTitle({state:0,id:this.props.match.params.id});
+      await this.props.getArticleDetail(this.props.articleTitle[0].id);
+      await locationTo();
+    } catch (error) {
+      console.log(error);
     }
-   
+    
   }
+  
   add=()=>{
     let body = {
       title: new Date().toLocaleDateString(),
@@ -60,6 +67,7 @@ export default class ArticleList extends Component {
             to={'/write/' + match.params.id+'/detail/'+item.id}
             activeClassName="active"
             className="article-detail-classify"
+            onClick={()=>this.props.getArticleDetail(item.id)}
           >{item.title}</NavLink>
         ));
       }else{
@@ -70,7 +78,7 @@ export default class ArticleList extends Component {
       <div>
         <Col span="4" className="markdown-middle-list">
           <div className="new-article" onClick={this.add}>
-            <i className="fa fa-plus"/>
+            <Icon type="plus-square" />
             <span>新建文章</span>
           </div>
           <nav>

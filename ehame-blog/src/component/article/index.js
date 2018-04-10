@@ -27,20 +27,12 @@ export default class Write extends Component {
   }
 
   render() {
-    // const { title } = this.state;
     return (
       <div className="markdown-main">
         <Row className="markdown-row">
           <Col span="4" className="markdown-left-list">
             <ArticleType {...this.props}/>
           </Col>
-          {/* <Col span="4" className="markdown-middle-list">
-            <Route key="write" path="/write/:id" component={ArticleList} />
-          </Col>
-          <Col span="16">
-            <Input onChange={(e) => this.setState({ title: e.target.value })} value={title}/>
-            <Markdown />
-          </Col> */}
           <Route key="write" path="/write/:id" component={ArticleList} />
         </Row>
       </div>
