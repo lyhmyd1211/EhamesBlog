@@ -3,8 +3,6 @@ const  articleService = require('../service/articleService');
 const articleCode = require('../retCode/article');
 const articleDB = require('../DB/article');
 const articleTypeDB = require('../DB/articleType');
-const tool = require('../util');
-const date = new Date();
 module.exports={
   async getArticle(ctx, next) {
     let query = ctx.query || {};
@@ -80,9 +78,10 @@ module.exports={
     };
     let content = await articleService.insertArticle({
       [articleDB.ARTICLE_TITLE]:formData.title,
-      [articleDB.ARTICLE_CONTENT]:formData.content,
-      [articleDB.ARTICLE_RELEASE_TIME]: date,
-      [articleDB.ARTICLE_EDIT_TIME]: date,
+      [articleDB.ARTICLE_MD_CONTENT]:formData.mdContent,
+      [articleDB.ARTICLE_HTML_CONTENT]: formData.htmlContent,
+      [articleDB.ARTICLE_RELEASE_TIME]: new Date(),
+      [articleDB.ARTICLE_EDIT_TIME]: new Date(),
       [articleDB.ARTICLE_TYPE]:formData.type,
       [articleDB.ARTICLE_STATE]:formData.state,
 
@@ -107,7 +106,8 @@ module.exports={
     };
     let content = await articleService.updateArticle({
       [articleDB.ARTICLE_TITLE]: formData.title,
-      [articleDB.ARTICLE_CONTENT]: formData.content,
+      [articleDB.ARTICLE_MD_CONTENT]: formData.mdContent,
+      [articleDB.ARTICLE_HTML_CONTENT]: formData.htmlContent,
       [articleDB.ARTICLE_TYPE]: formData.type,
     }, formData.id);
     if (content) {
@@ -126,9 +126,7 @@ module.exports={
       retMsg: '',
       root: { list: [] },
     };
-    let content = await articleService.deleteArticle({
-      [articleDB.ARTICLE_ID]: formData.ArticleId,
-    });
+    let content = await articleService.deleteArticle(formData.id);
     if (content) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_DELETE_ARTICLE;
@@ -184,12 +182,14 @@ module.exports={
     let result = {
       retCode: 0,
       retMsg: '',
-      root: {list:[]},
+      root:{list:[]},
     };
-    let content = await articleService.deleteArticleType({
-      [articleTypeDB.ARTICLE_TYPE_ID]: formData.ArticleId,
-    });
-    if (content.length > 0) {
+    console.log('deletectrl',formData.id);
+    
+    let content = await articleService.deleteArticleType(formData.id);
+    console.log('content',content);
+    
+    if (content) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_DELETE_ARTICLE_TYPE;
       result.root = {
@@ -208,8 +208,10 @@ module.exports={
       retMsg: '',
       root: {list:[]},
     };
-    let content = await articleService.deleteArticleType(formData);
-    if (content.length > 0) {
+    let content = await articleService.updateArticleType({
+      [articleTypeDB.ARTICLE_TYPE]: formData.type,
+    },formData.id);
+    if (content) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_UPDATE_ARTICLE_TYPE;
       result.root = {

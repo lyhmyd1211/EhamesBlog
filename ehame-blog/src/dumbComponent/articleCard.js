@@ -8,6 +8,7 @@ const { Meta } = Card;
 export default class ArticleCard extends Component{
   render(){
     const { content}=this.props;
+    let htmlContent = { __html:content.htmlContent};
     return (
       <div className="article-card">
         <Card
@@ -42,7 +43,7 @@ export default class ArticleCard extends Component{
               <span>字数统计: {content.wordNum}</span>&nbsp;
               <span>阅读时长 ≈ {content.readSpendTime}min</span>
             </div>
-            <div className="article-content">{content.content}</div>
+            <div className="article-content" dangerouslySetInnerHTML={htmlContent} />
           </div>
           <div className="article-read-more" onClick={this.test}>
             <NavLink to={`/detail/${this.props.content.id}`} 

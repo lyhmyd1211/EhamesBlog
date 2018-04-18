@@ -55,7 +55,7 @@ const scrollUp = (state={isScrollUp:false},action)=>{
 /**
  * 获取单条文章内容    
  */
-const getArticleContent = (state = { content: '',submit:false }, action) => {
+const getArticleContent = (state = { mdContent: '',htmlContent:'',submit:false }, action) => {
   switch (action.type) {
   case ARTICLE_CONTENT:
     return action.payload;
@@ -95,7 +95,7 @@ const getArticleTitle = (state = { articleTitle:{root:{list:[]}}},action)=>{
 /**
  * 根据id获取文章详情
  */
-const getArticleById = (state = {title:'',content:''}, action) => {
+const getArticleById = (state = {title:'',mdContent:'',htmlContent:''}, action) => {
   switch (action.type) {
   case ARTICLE_DETAIL_SUCCESS:
     return action.payload;

@@ -19,9 +19,10 @@ class Menu extends Component {
   //   // window.onscroll = this.scrollPercent;
   // }
   scrollPercent(type) {
-    const { getCurrentPercent, current} = this.props;
-    getCurrentPercent({ percent: getScrollPercent(), current: getScrollTop() });
-    ScrollToAnimate(document.body.offsetHeight+8, 12, current);
+    // const { getCurrentPercent, current} = this.props;
+    // getCurrentPercent({ percent: getScrollPercent(), current: getScrollTop() });
+    // ScrollToAnimate(document.body.offsetHeight+8, 12, current);
+    window.scrollTo(0,document.body.offsetHeight);
   }
   render() {
     return (

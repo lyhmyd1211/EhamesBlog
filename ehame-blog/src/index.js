@@ -7,6 +7,7 @@ import App from './router';
 import registerServiceWorker from './registerServiceWorker';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import 'babel-polyfill';
 moment.locale('zh-cn');
 
 ReactDOM.render(

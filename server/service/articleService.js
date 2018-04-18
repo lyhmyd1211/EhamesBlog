@@ -36,8 +36,8 @@ const article = {
     let content = await articleModel.deleteArticleTypeById(id);
     return content;
   },
-  async updateArticleType(formData){
-    let content = await articleModel.updateArticleType(formData);
+  async updateArticleType(formData,id){
+    let content = await articleModel.updateArticleType(formData,id);
     return content;
   },
 };

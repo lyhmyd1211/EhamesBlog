@@ -118,3 +118,24 @@ export function guid() {
   }
   return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
 }
+/**
+ * 获取文章目录
+ * @param {*} element 文章根DOM
+ */
+export function getCataLog(element){
+  let cataLog = [];
+  let tag = ['H1', 'H2', 'H3'];
+  cataLog = Array.from(element.querySelectorAll('h1,h2,h3'));
+  console.log('cataLog',cataLog);
+  return cataLog.map(item=>{
+    function getNextNode(el){
+      if (el.nextElementSibling !== null && tag.findIndex(_ => _===el.tagName) === -1) {
+        return getNextNode(el.nextElementSibling);
+      }else{
+        return el;
+      }
+    }
+    return { type: 'cataLog-' + item.tagName, text: item.innerText, node: item, nextNode: getNextNode(item.nextElementSibling) };
+  }); 
+  
+}

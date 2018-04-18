@@ -81,7 +81,7 @@ module.exports = {
   },
 
   /**
-   * 获取所有文章类型
+   * 获取所有可修改文章类型
    */
   async getAllArticleType(){
     let result = await dbUtils.finAllDataOderBy(articleTypeDB.ARTICLE_TYPE_TABLE,articleTypeDB.ARTICLE_TYPE_ID);

@@ -81,7 +81,7 @@ export const fetchArticleById = (id) => async (dispatch, getState) =>{
   try {
     await get(`/article/getbyId/${id}`, data => {
       if (data.retCode) {
-        dispatch(getArticleByIdSuccess({title:data.root.list[0].title,content:data.root.list[0].content}));    
+        dispatch(getArticleByIdSuccess(data.root.list[0]));    
       }
     });
   } catch (error) {

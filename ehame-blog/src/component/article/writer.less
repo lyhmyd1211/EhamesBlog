@@ -31,7 +31,9 @@
       }
       .new-type-operation,.new-type-operation-active{
         .input-new-type{
-          color: #eee;
+          color:rgba(0, 0, 0, 0.65);
+          width: 80%;
+          margin-left: 30px;
         }
         .btn-type-ok,.btn-type-cencel{
           display: inline-block;
@@ -70,13 +72,12 @@
         margin-top: 10px;
         cursor: pointer;
         .article-type-classify{
-          padding: 10px 30px;
-          border:1px solid #404040;
+          padding: 10px 20px;
           display: block;
         }
         .article-type-classify:hover,.active{
-          padding:10px 30px;
-          border:1px solid;
+          padding:10px 20px;
+          background-color: #666;
         }
       }
     }
@@ -99,6 +100,19 @@
           margin-left: 10px;
         }
       }
+    }
+    .type-setting{
+      position:absolute;
+      right: 10px;
+      margin-top: 10px;
+    }
+    .type-setting-menu{
+      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      list-style: none;
+      background-color: #fff;
+      color: #595959;
+      border-radius: 10px;
     }
   }
 }

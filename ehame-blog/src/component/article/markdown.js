@@ -19,57 +19,58 @@ import { ArticleContent } from '../../redux-root/action/artical';
 export default class MarkDown extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      //content:'',
-      content: this.props.detail.content,
-      title:this.props.detail.title,
+    this.state = {
+      title: this.props.detail.title,
     };
   }
-  
-  componentDidMount(){
+
+  componentDidMount() {
     this.getData();
   }
-  getData=()=>{
+  getData = () => {
     this.setState({
-      content: this.props.detail.content,
       title: this.props.detail.title,
     });
-    
+
   }
 
   componentWillReceiveProps(next) {
     if (next.model.submit) {
       const { title } = this.state;
-      let content = next.model.content;
+      let mdContent = next.model.mdContent;
+      let htmlContent = next.model.htmlContent;
       let body = {
         id: next.currentArticle,
         title,
-        content,
+        mdContent,
+        htmlContent,
         type: next.currentType,
-        state:1,
+        state: 1,
       };
       post('/article/update', body, data => {
         if (data.retCode === 1) {
           Message.success(data.retMsg);
-          this.props.setArticleContent({ content: '', submit: false });
+          this.props.setArticleContent({ mdContent: '', htmlContent: '', submit: false });
           window.location.hash = '/home';
         } else {
           Message.error(data.error);
         }
       });
     }
-    if (next.detail.title !==  this.state.detail) {
-      this.setState({title:next.detail.title});
+    if (next.detail.title !== this.state.detail) {
+      this.setState({ title: next.detail.title });
     }
   }
-  render(){
-    const {title} = this.state;
+  render() {
+    const { title } = this.state;
+    console.log('model', this.props.model);
+
     return (
       <div>
         <Input onChange={(e) => this.setState({ title: e.target.value })} value={title} />
         <MarkdownEditor />
       </div>
-      
+
     );
   }
 }

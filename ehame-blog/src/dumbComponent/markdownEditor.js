@@ -11,8 +11,7 @@ import './markdownEditor.less';
 
 @connect(
   state => ({
-    articleContent: state.getArticleById.content,
-    detail: state.getArticleById,
+    articleContent: state.getArticleById.mdContent,
   }),
   dispatch => ({
     setArticleContent: (n) => dispatch(ArticleContent(n)),
@@ -22,7 +21,7 @@ export default class Markdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: this.props.detail.content,
+      content: this.props.articleContent,
     };
   }
 
@@ -101,7 +100,7 @@ export default class Markdown extends Component {
         {
           name: 'post-article',
           action: (editor) => {
-            this.props.setArticleContent({ content: editor.value(), submit: true });
+            this.props.setArticleContent({ mdContent: editor.value(), htmlContent: editor.markdown(editor.value()), submit: true });
           },
           className: 'fa-custom-post',
           title: '发布文章',

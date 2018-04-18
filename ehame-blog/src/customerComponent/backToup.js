@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Icon } from 'antd';
 import { scrollPercentAction, isScrollUpAction } from '../redux-root/action/scroll';
 import { getScrollPercent, getScrollTop, ScrollToAnimate } from '../util';
 import './backToUp.less';
@@ -43,8 +44,9 @@ class backToUp extends Component {
     return (
       <div onClick={() => this.scrollToTop()} className=
         {visible ? 'scroll-up-show' : 'scroll-up'}>
+        <Icon type="up-square" className="to-top-icon"/>
         {/* "scroll-up-show"> */}
-        {percent + '%'}
+        <div className="to-up-percent">{percent + '%'}</div>
       </div>
     );
   }

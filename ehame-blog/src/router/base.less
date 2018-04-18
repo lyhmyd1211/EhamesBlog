@@ -1,12 +1,11 @@
 .base-main{
+  background-color: #f5f8fa;
   #flex-container{
-    margin-top: 5vh;
     display: flex;
     display: -webkit-flex;
     .flex-item-left{
-      width: 260px;
-      border-right: 1px solid;
-      border-color:#0000001a;
+      width: 18vw;
+      border-right: 1px solid #e8e8e8;
       .owner-meta-first{
         position: absolute;
       }
@@ -86,34 +85,45 @@
   .header-image-main{
     background: url('../assets/picture/background1.jpg');
     height: 100vh;
-    .header-up{
-      top:-58px;
-      position: fixed;
-      z-index: 1030;
-      -webkit-transform: translate3d(0,0,0);
-      transform: translate3d(0,0,0);
-      -webkit-transition: -webkit-transform .5s;
-      transition: -webkit-transform .5s;
-      transition: transform .5s;
-      transition: transform .5s, -webkit-transform .5s;
-      width: 100vw;
-      opacity: .95;
-     // -webkit-transform: translateZ(0); //防止抖动
-    }
-    .header-up-active{
-      z-index: 1030;
-      position: fixed;
-      top:-58px;
-      -webkit-transform: translate3d(0,100%,0);
-      transform: translate3d(0,100%,0);
-      -webkit-transition: -webkit-transform .5s;
-      transition: -webkit-transform .5s;
-      transition: transform .5s;
-      transition: transform .5s, -webkit-transform .5s;
-      //-webkit-transform: translateZ(0); //防止抖动
-      width: 100vw;
-      opacity: .95;
-    }
+    
+  }
+  .fixed-header{
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    height: 56px;
+    z-index: 100;
+    overflow: hidden;
+    opacity: .95;
+    // .header-up{
+    //   width: 100%;
+    //   top:-58px;
+    //   position: fixed;
+    //   -webkit-transform: translateY(-100%);
+    //   transform: translate3d(-100%);
+    //   -webkit-transition: -webkit-transform .5s;
+    //   transition: transform .5s, -webkit-transform .5s;
+    // // -webkit-transform: translateZ(0); //防止抖动
+    // }
+    // .header-up-active{
+    //   width: 100%;
+    //   position: fixed;
+    //   top:-58px;
+    //   -webkit-transform: translateY(100%);
+    //   transform: translateY(100%);
+    //   -webkit-transition: -webkit-transform .5s;
+    //   transition: transform .5s, -webkit-transform .5s;
+    //   //-webkit-transform: translateZ(0); //防止抖动
+    // }
+    // .page-header{
+    //   width: 100%;
+    //   position: absolute;
+    //   -webkit-transform: translateY(100%);
+    //   transform: translateY(100%);
+    //   -webkit-transition: -webkit-transform .5s;
+    //   transition: transform .5s, -webkit-transform .5s;
+    // }
   }
   .card-img{
     width: 5vw;

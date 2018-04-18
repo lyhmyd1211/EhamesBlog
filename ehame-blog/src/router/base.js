@@ -34,15 +34,14 @@ class Base extends Component {
   }
   render() {
     const { trigger, firstIn } = this.state;
-    const { children, loginData, isScrollUp } = this.props;
+    const { children, loginData } = this.props;
     
     return (
       <div className="base-main">
-        <div className="header-image-main">
-          <div className={isScrollUp?'header-up-active':'header-up'}>
-            <Header />
-          </div>
-        </div>
+        <div className="header-image-main" />
+        <Affix>
+          <Header />
+        </Affix>
         <div id="flex-container">
           <div className="flex-item-left">
             <header className="header-head-portrait">
@@ -54,7 +53,7 @@ class Base extends Component {
               
               <Card
                 hoverable
-                style={{ width: 240, height: 300, margin: 10 }}
+                style={{ width: '16vw', height: 300, margin: 12 }}
                 className={firstIn ? 'owner-meta-first' : trigger ? 'owner-meta-hide' : 'owner-meta-show'}>
                 <img className="card-img" src={cardImg} alt="head-portrait"/>
                 <Meta
@@ -63,7 +62,7 @@ class Base extends Component {
               </Card>
               <Card
                 hoverable
-                style={{ width: 240, height: 300, margin: 10 }}
+                style={{ width: '16vw', height: 300, margin: 12 }}
                 className={firstIn ? 'owner-login-first' : trigger ? 'owner-login-show' : 'owner-login-hide'}>
                 {loginData.retCode ?
                   <HasLogin loginData={loginData}/>
@@ -86,8 +85,8 @@ class Base extends Component {
           </div>
         </div>
         <BackToUp
-          marginTop={document.body.offsetHeight+8}
-          step={12}
+          marginTop={document.body.offsetHeight-12}
+          step={24}
           visiblePercent={20}
         />
       </div>
