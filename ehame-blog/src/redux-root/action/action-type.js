@@ -17,3 +17,5 @@ export const CURRENT_ARTICLE_ID ='current_article_id';//当前文章ID
 export const IS_SCROLL_UP = 'is_scroll_up';//滚动条是否向上
 export const SCROLL_PERCENT ='scroll_percent'; //滚动条所在百分比
 
+export const DETAIL_STATE = 'detail_state';//是否在文章详情页状态
+

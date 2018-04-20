@@ -6,7 +6,9 @@ import Base from './base';
 import Home from '../component/home';
 import Detail from '../component/home/detail';
 import Article from '../component/article';
-import Classification from '../component/classification';
+import Categories from '../component/categories/categories';
+import CategoriesBase from '../component/categories';
+import TimeLine from '../component/categories/timeLine';
 const App = () => {
   return <HashRouter>
     <Switch>
@@ -14,9 +16,14 @@ const App = () => {
       <Route key="write" path="/write" component={Article} />
       <Base>
         <Switch>
-          <Route key="home" path="/home" component={Home} />
           <Route key="detail" path="/detail/:articleId" component={Detail} />
-          <Route key="classification" path="/classification" component={Classification}/>
+          <CategoriesBase>
+            <Switch>
+              <Route key="home" path="/home" component={Home} />
+              <Route key="categories" exact path="/categories" component={Categories}/>
+              <Route key="timeline" path="/categories/timeLine/:typeId" component={TimeLine} />
+            </Switch>
+          </CategoriesBase>
         </Switch>
       </Base>
     </Switch>

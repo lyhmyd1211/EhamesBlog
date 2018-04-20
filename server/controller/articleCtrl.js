@@ -143,12 +143,22 @@ module.exports={
       root: {list:[]},
     };
     let content = await articleService.getAllArticleType();
+    //todo 处理type
     if (content.length > 0) {
       result.retCode = 1;
       result.retMsg = articleCode.SUCCESS_GET_ARTICLE_TYPE;
+      let arr = Array.from(new Set(content.map(_ => _.type))).map(_ => { return { content: [], type: _}; });
+      arr.map((arrItem, index) => {
+        content.map(item => {
+          if (item.type === arrItem.type) {
+            arrItem.content.push(item);
+            arrItem.typeId = item.typeId;
+          }
+        });
+      });
       result.root = {
-        Num: content.length,
-        list: content,
+        Num: arr.length,
+        list: arr,
       };
     } else {
       result.retMsg = articleCode.ERROR_GET_ARTICLE_TYPE;

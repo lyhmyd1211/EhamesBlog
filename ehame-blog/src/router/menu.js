@@ -14,15 +14,15 @@ import './menu.less';
   })
 )
 class Menu extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   // window.onscroll = this.scrollPercent;
-  // }
+  constructor(props) {
+    super(props);
+    // window.onscroll = this.scrollPercent;
+  }
   scrollPercent(type) {
-    // const { getCurrentPercent, current} = this.props;
-    // getCurrentPercent({ percent: getScrollPercent(), current: getScrollTop() });
-    // ScrollToAnimate(document.body.offsetHeight+8, 12, current);
-    window.scrollTo(0,document.body.offsetHeight);
+    const { getCurrentPercent, current} = this.props;
+    getCurrentPercent({ percent: getScrollPercent(), current: getScrollTop() });
+    ScrollToAnimate(document.body.offsetHeight, 12, current);
+    // window.scrollTo(0,document.body.offsetHeight);
   }
   render() {
     return (
@@ -37,19 +37,12 @@ class Menu extends Component {
               首页
           </NavLink>
           <NavLink
-            to="/classification"
+            to="/categories"
             activeClassName="selected"
             className="menu-item"
             onClick={() => { this.scrollPercent(); }}
           >
               分类
-          </NavLink>
-          <NavLink
-            to="/timeLine"
-            activeClassName="selected"
-            className="menu-item"
-            onClick={() => { this.scrollPercent(); }}
-          >时间线
           </NavLink>
           <NavLink
             to="/aboutMe"

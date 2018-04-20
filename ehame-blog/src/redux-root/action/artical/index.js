@@ -1,4 +1,4 @@
-import { ARTICLE_DATA, ARTICLE_DATA_ERROR, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_TITLE_ERROR, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR, CURRENT_TYPE_ID, CURRENT_ARTICLE_ID} from '../action-type';
+import { ARTICLE_DATA, ARTICLE_DATA_ERROR, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_TITLE_ERROR, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR, CURRENT_TYPE_ID, CURRENT_ARTICLE_ID, DETAIL_STATE} from '../action-type';
 import {get} from '../../../fetchData';
 
 const getArticleSuccess = (n) => ({
@@ -44,7 +44,10 @@ export const ArticleContent = (n) => ({
   type: ARTICLE_CONTENT,
   payload: n,
 });
-
+export const detailState = (n) =>({
+  type:DETAIL_STATE,
+  payload:n,
+});
 
 export const fetchArticle =()=>async (dispatch,getState)=>{
   try {

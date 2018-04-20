@@ -147,9 +147,8 @@ export default class ArticleType extends Component {
             </div>
           </NavLink>
         );
-      } else {
-        return <div />;
       }
+      return <div />;
     };
     return (
       <div>

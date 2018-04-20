@@ -39,38 +39,37 @@ class Base extends Component {
     return (
       <div className="base-main">
         <div className="header-image-main" />
-        <Affix>
+        <Affix className="header-affix">
           <Header />
         </Affix>
         <div id="flex-container">
           <div className="flex-item-left">
-            <header className="header-head-portrait">
-              <Tooltip title={loginData.retCode?'已登录':'未登录'}>
-                <div className="be-cliked-div" onClick={() =>
+            {/* <header className="header-head-portrait"> */}
+            <Tooltip title={loginData.retCode?'已登录':'未登录'}>
+              {/* <div className="be-cliked-div" onClick={() =>
                   this.setState({ trigger: !trigger, firstIn: false })}>翻转
-                </div>
-              </Tooltip>
-              
-              <Card
-                hoverable
-                style={{ width: '16vw', height: 300, margin: 12 }}
-                className={firstIn ? 'owner-meta-first' : trigger ? 'owner-meta-hide' : 'owner-meta-show'}>
-                <img className="card-img" src={cardImg} alt="head-portrait"/>
-                <Meta
-                  title="无辣不欢"
-                  description="www.instagram.com" />
-              </Card>
-              <Card
-                hoverable
-                style={{ width: '16vw', height: 300, margin: 12 }}
-                className={firstIn ? 'owner-login-first' : trigger ? 'owner-login-show' : 'owner-login-hide'}>
-                {loginData.retCode ?
-                  <HasLogin loginData={loginData}/>
-                  :
-                  <LoginCard isLogin={this.props.isLogin} />
-                }
-              </Card>
-            </header>
+                </div> */}
+            </Tooltip>
+            <Card
+              hoverable
+              style={{ width: '16vw', height: 300, margin: '0 12px' }}
+              className={firstIn ? 'owner-meta-first' : trigger ? 'owner-meta-hide' : 'owner-meta-show'}>
+              <img className="card-img" src={cardImg} alt="head-portrait"/>
+              <Meta
+                title="无辣不欢"
+                description="www.instagram.com" />
+            </Card>
+            <Card
+              hoverable
+              style={{ width: '16vw', height: 300, margin: '0 12px' }}
+              className={firstIn ? 'owner-login-first' : trigger ? 'owner-login-show' : 'owner-login-hide'}>
+              {loginData.retCode ?
+                <HasLogin loginData={loginData}/>
+                :
+                <LoginCard isLogin={this.props.isLogin} />
+              }
+            </Card>
+            {/* </header> */}
             <Affix offsetTop={60}>
               <Menu {...this.props}/>
             </Affix>
@@ -85,7 +84,7 @@ class Base extends Component {
           </div>
         </div>
         <BackToUp
-          marginTop={document.body.offsetHeight-12}
+          marginTop={document.body.offsetHeight}
           step={24}
           visiblePercent={20}
         />

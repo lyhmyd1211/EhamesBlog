@@ -1,5 +1,5 @@
 import {
-  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR, ARTICLE_TITLE_ERROR, CURRENT_TYPE_ID, CURRENT_ARTICLE_ID} from '../action/action-type.js';
+  ARTICLE_DATA, ARTICLE_DATA_ERROR, LOGIN_STATE, SCROLL_PERCENT, IS_SCROLL_UP, ARTICLE_CONTENT, ARTICLE_TYPE, ARTICLE_TYPE_ERROR, ARTICLE_TITLE, ARTICLE_DETAIL_SUCCESS, ARTICLE_DETAIL_ERROR, ARTICLE_TITLE_ERROR, CURRENT_TYPE_ID, CURRENT_ARTICLE_ID, DETAIL_STATE} from '../action/action-type.js';
 import { combineReducers } from 'redux';
 
 /**
@@ -129,7 +129,15 @@ const getCurrentArticleId = (state = '', action) => {
     return state;
   }
 };
+const setDetailState = (state=false,action)=>{
+  switch (action.type) {
+  case DETAIL_STATE:
+    return action.payload;
+  default:
+    return state;
+  }
+};
 export default combineReducers({
-  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType, getArticleTitle, getArticleById, getCurrentTypeId, getCurrentArticleId,
+  article, loginState, scrollPercent, scrollUp, getArticleContent, getArticleType, getArticleTitle, getArticleById, getCurrentTypeId, getCurrentArticleId, setDetailState,
 });
 

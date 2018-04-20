@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Affix } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { fetchArticleById } from '../../redux-root/action/artical';
+import { fetchArticleById, detailState } from '../../redux-root/action/artical';
 import './detail.less';
 import { getCataLog } from '../../util.js';
 import { NavLink } from 'react-router-dom';
@@ -14,6 +14,7 @@ const { Meta } = Card;
   }),
   dispatch => ({
     getArticleDetail: (n) => dispatch(fetchArticleById(n)),
+    setDetailHeaderState:(n)=>dispatch(detailState(n)),
   })
 )
 export default class Detail extends Component {
@@ -28,6 +29,7 @@ export default class Detail extends Component {
   componentDidMount() {
     let id = this.props.match.params.articleId;
     this.getDetail(id);
+    this.props.setDetailHeaderState(true);
   }
   getDetail = async (id) => {
     await this.props.getArticleDetail(id);
@@ -39,8 +41,6 @@ export default class Detail extends Component {
   cataLogScroll(index){
     let id = 'catalog-default'+index;
     let cur = document.getElementById(id);
-    console.log('cur',cur);
-    
     let win = document.getElementById('detail-card-catalog');
     if (cur) {
       win.scrollTo(0, cur.offsetTop-68);
@@ -61,6 +61,9 @@ export default class Detail extends Component {
     }
     return false;
 
+  }
+  componentWillUnmount(){
+    this.props.setDetailHeaderState(false);
   }
   render() {
     const { content } = this.props;
@@ -86,7 +89,7 @@ export default class Detail extends Component {
             </div>
           </Card>
         </div>
-        <Affix className="detail-catalog-affix" offsetTop={57}>
+        <Affix className="detail-catalog-affix" offsetTop={77}>
           <div className="hide-scroll"/>
           <Card className="detail-card-catalog" id="detail-card-catalog">
             <div style={{ fontSize: '16px', fontWeight: 700 }}>目录</div>
