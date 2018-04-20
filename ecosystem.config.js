@@ -8,7 +8,7 @@ module.exports = {
     // First application
     {
       name: 'API',
-      script: 'app.js',
+      script: 'server/bin/www',
       env: {
         COMMON_VARIABLE: 'true',
       },
@@ -17,11 +17,6 @@ module.exports = {
       },
     },
 
-    // Second application
-    {
-      name: 'WEB',
-      script: 'web.js',
-    },
   ],
 
   /**
@@ -30,12 +25,13 @@ module.exports = {
    */
   deploy: {
     production: {
-      user: 'node',
-      host: '212.83.163.1',
+      user: 'adminSSH',
+      host: '119.29.24.229',
       ref: 'origin/master',
-      repo: 'git@github.com:repo.git',
-      path: '/var/www/production',
-      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production',
+      port: '6983',
+      repo: 'git@github.com:lyhmyd1211/EhamesBlog.git',
+      path: '/home/adminSSH/www/production',
+      'post-deploy': 'yarn install && pm2 startOrRestart ecosystem.json --env production',
     },
     dev: {
       user: 'node',
