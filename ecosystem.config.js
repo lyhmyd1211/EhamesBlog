@@ -31,7 +31,7 @@ module.exports = {
       port: '6983',
       repo: 'git@github.com:lyhmyd1211/EhamesBlog.git',
       path: '/home/adminSSH/www/production',
-      'post-deploy': 'yarn install && sudu pm2 startOrRestart ecosystem.config.js --env production',
+      'post-deploy': 'yarn install && pm2 startOrRestart ecosystem.config.js --env production',
     },
     dev: {
       user: 'node',
