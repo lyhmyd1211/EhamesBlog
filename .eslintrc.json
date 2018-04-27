@@ -90,12 +90,17 @@
     "react/jsx-pascal-case": 1,
     "react/react-in-jsx-scope": 2,
     "react/require-render-return": 2,
-    "react/self-closing-comp": 2
+    "react/self-closing-comp": 2,
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 100,
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
+    ]
   },
-  "plugins": [
-    "babel",
-    "react"
-  ],
+  "plugins": ["babel", "react", "prettier"],
   "globals": {
     "$q": true
   }

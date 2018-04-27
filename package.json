@@ -6,7 +6,8 @@
     "start": "node server/bin/www",
     "dev": "./node_modules/.bin/nodemon server/bin/www",
     "prd": "pm2 start server/bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint *.js"
   },
   "dependencies": {
     "babel-eslint": "^8.2.1",
@@ -14,6 +15,7 @@
     "debug": "^2.6.3",
     "eslint": "^4.17.0",
     "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.6.1",
     "koa": "^2.2.0",
     "koa-bodyparser": "^3.2.0",
@@ -31,6 +33,7 @@
     "koa2-cors": "^2.0.5",
     "mysql": "^2.15.0",
     "pm2": "^2.10.1",
+    "prettier": "^1.12.1",
     "pug": "^2.0.0-rc.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
