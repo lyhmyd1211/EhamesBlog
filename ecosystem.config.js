@@ -4,7 +4,6 @@ module.exports = {
    * http://pm2.keymetrics.io/docs/usage/application-declaration/
    */
   apps: [
-
     // First application
     {
       name: 'API',
@@ -16,7 +15,6 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
-
   ],
 
   /**
