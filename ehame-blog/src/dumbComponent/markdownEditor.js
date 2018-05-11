@@ -14,7 +14,7 @@ import './markdownEditor.less';
     articleContent: state.getArticleById.mdContent,
   }),
   dispatch => ({
-    setArticleContent: (n) => dispatch(ArticleContent(n)),
+    setArticleContent: n => dispatch(ArticleContent(n)),
   })
 )
 export default class Markdown extends Component {
@@ -99,8 +99,12 @@ export default class Markdown extends Component {
 
         {
           name: 'post-article',
-          action: (editor) => {
-            this.props.setArticleContent({ mdContent: editor.value(), htmlContent: editor.markdown(editor.value()), submit: true });
+          action: editor => {
+            this.props.setArticleContent({
+              mdContent: editor.value(),
+              htmlContent: editor.markdown(editor.value()),
+              submit: true,
+            });
           },
           className: 'fa-custom-post',
           title: '发布文章',
@@ -124,7 +128,7 @@ export default class Markdown extends Component {
           title: '预览',
         },
       ],
-      previewRender: function (plainText) {
+      previewRender: function(plainText) {
         return marked(plainText, {
           renderer: new marked.Renderer(),
           gfm: true,
@@ -134,25 +138,23 @@ export default class Markdown extends Component {
           breaks: true,
           smartLists: true,
           smartypants: true,
-          highlight: function (code) {
+          highlight: function(code) {
             return highlight.highlightAuto(code).value;
           },
         });
       },
     });
-    this.smde.value(this.state.content || ''); 
+    this.smde.value(this.state.content || '');
   }
-  
+
   componentWillUnmount() {
     this.smde.toTextArea();
     this.smde = null;
   }
   render() {
     if (this.smde) {
-      this.smde.value(this.props.articleContent || ''); 
+      this.smde.value(this.props.articleContent || '');
     }
-    return (
-      <textarea id="editor" />
-    );
+    return <textarea id="editor" />;
   }
 }

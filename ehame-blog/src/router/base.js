@@ -3,7 +3,7 @@ import { Affix, Card, Form, Tooltip } from 'antd';
 import './base.less';
 import Menu from './menu';
 import Header from './header';
-import BackToUp from '../customerComponent/backToup';
+import BackToUp from 'react-back-to-top';
 import { connect } from 'react-redux';
 import { fetchLoginState } from '../redux-root/action/login';
 import LoginCard from '../component/login/login_modal/loginForm';
@@ -83,7 +83,7 @@ class Base extends Component {
             <footer style={{ textAlign: 'center' }}>Ehame's blog ©2018 Created by Ehame Lu</footer>
           </div>
         </div>
-        <BackToUp marginTop={document.body.offsetHeight} step={24} visiblePercent={20} />
+        <BackToUp offsetTop={document.body.offsetHeight} step={24} visiblePercent={20} />
       </div>
     );
   }

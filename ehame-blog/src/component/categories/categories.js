@@ -10,7 +10,7 @@ import { fetchArticleType, fetchArticleTitleList } from '../../redux-root/action
   }),
   dispatch => ({
     getTypeData: () => dispatch(fetchArticleType()),
-    getListData: (model) => dispatch(fetchArticleTitleList(model)),
+    getListData: model => dispatch(fetchArticleTitleList(model)),
   })
 )
 export default class Categories extends Component {
@@ -20,12 +20,12 @@ export default class Categories extends Component {
   getData = async () => {
     await this.props.getTypeData();
     await this.props.getListData();
-  }
+  };
   render() {
     const { articleType } = this.props;
     const Type = () => {
       if (articleType) {
-        return articleType.map((item, index) =>
+        return articleType.map((item, index) => (
           <div key={index}>
             <NavLink
               key={index}
@@ -40,7 +40,7 @@ export default class Categories extends Component {
               {item.type}({item.content.length})
             </NavLink>
           </div>
-        );
+        ));
       }
       return <div>暂无分类</div>;
     };
