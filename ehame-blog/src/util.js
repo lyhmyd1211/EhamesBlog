@@ -148,3 +148,21 @@ export function getCataLog(element) {
     };
   });
 }
+/**
+ *  事件监听兼容写法
+ */
+export function addEvent(obj, type, fn) {
+  if (obj.attachEvent) {
+    obj.attachEvent('on' + type, function() {
+      fn.call(obj);
+    });
+  } else {
+    obj.addEventListener(type, fn, false);
+  }
+}
+// addEvent(window, 'scroll', function() {
+//   alert('first method');
+// });
+// addEvent(window, 'scroll', function() {
+//   alert('second method');
+// });

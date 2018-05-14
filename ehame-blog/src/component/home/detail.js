@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { fetchArticleById, detailState } from '../../redux-root/action/artical';
 import './detail.less';
-import { getCataLog } from '../../util.js';
+import { getCataLog, getScrollTop } from '../../util.js';
 import { NavLink } from 'react-router-dom';
 const { Meta } = Card;
 @connect(
@@ -22,8 +22,13 @@ export default class Detail extends Component {
     super(props);
     this.state = {
       cataLog: [],
+      current: 0,
     };
     window.scrollTo(0, 0);
+    // window.onscroll = () => {
+    //   this.setState({ current: getScrollTop() });
+    //   console.log('current', getScrollTop());
+    // };
   }
 
   componentDidMount() {
@@ -48,6 +53,7 @@ export default class Detail extends Component {
   }
   isActive = (index, node, nextNode) => {
     const { current } = this.props;
+    console.log('current', current);
     if (node && nextNode) {
       let precent = node.offsetTop + document.body.offsetHeight - 20;
       let next = nextNode.offsetTop + document.body.offsetHeight - 20;

@@ -5,7 +5,6 @@ import { fetchArticle } from '../../redux-root/action/artical';
 import ArticleCard from '../../dumbComponent/articleCard';
 import './home.less';
 
-
 @connect(
   state => ({
     articleSource: state.article.articleData.list,
@@ -17,7 +16,7 @@ import './home.less';
 export default class Home extends Component {
   componentDidMount = () => {
     this.props.getData();
-    if (this.props.isDetail ) {
+    if (this.props.isDetail) {
       this.props.changeReadState(0);
     }
   };
@@ -25,11 +24,7 @@ export default class Home extends Component {
     const { articleSource } = this.props;
     const ACard = () => {
       if (articleSource.length > 0) {
-        return articleSource.map((item, index) =>
-          (
-            <ArticleCard key={index} content={item}/>
-          )
-        );
+        return articleSource.map((item, index) => <ArticleCard key={index} content={item} />);
       } else {
         return <div />;
       }
@@ -41,4 +36,3 @@ export default class Home extends Component {
     );
   }
 }
-

@@ -1,0 +1,46 @@
+.scroll-up{
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -webkit-transition: all 1s;
+  opacity: 0;
+  // display: none;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+.scroll-up-show{
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -webkit-transition: all 1s;
+  -webkit-transform: rotate(-360deg);
+          transform: rotate(-360deg);
+  opacity: 1;
+  // display: block;
+  cursor: pointer;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+}
+.to-top-icon{
+  transform:scale(4);
+  margin-left: 18px;
+  margin-top: 19px;
+
+}
+.to-up-percent{
+  color:#fff;
+  position: absolute;
+  left:0;
+  top:30px;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+}

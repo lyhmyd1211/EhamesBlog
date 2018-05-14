@@ -5,6 +5,8 @@ import Menu from './menu';
 import Header from './header';
 import BackToUp from 'react-back-to-top';
 import { connect } from 'react-redux';
+import { scrollPercentAction, isScrollUpAction } from '../redux-root/action/scroll';
+import { getScrollPercent, getScrollTop, addEvent } from '../util';
 import { fetchLoginState } from '../redux-root/action/login';
 import LoginCard from '../component/login/login_modal/loginForm';
 import HasLogin from '../component/login/login_modal/hasLogin';
@@ -13,11 +15,15 @@ import cardImg from '../assets/picture/background1.jpg';
 const { Meta } = Card;
 @connect(
   state => ({
+    percent: state.scrollPercent.percent,
+    current: state.scrollPercent.current,
     loginData: state.loginState.loginData,
     isScrollUp: state.scrollUp.isScrollUp,
   }),
   dispatch => ({
     isLogin: () => dispatch(fetchLoginState()),
+    isScrollUp: n => dispatch(isScrollUpAction(n)),
+    getCurrentPercent: n => dispatch(scrollPercentAction(n)),
   })
 )
 @Form.create()
@@ -31,7 +37,23 @@ class Base extends Component {
   }
   componentDidMount() {
     this.props.isLogin();
+    addEvent(window, 'scroll', () => {
+      this.scrollPercent();
+    });
   }
+  scrollPercent = () => {
+    let percent = this.props.percent;
+    this.props.getCurrentPercent({
+      percent: getScrollPercent(),
+      current: getScrollTop(),
+    });
+    if (percent > this.props.percent) {
+      this.props.isScrollUp(true);
+    } else if (percent < this.props.percent) {
+      this.props.isScrollUp(false);
+    }
+    // this.setState({ current: getScrollTop()});
+  };
   render() {
     const { trigger, firstIn } = this.state;
     const { children, loginData } = this.props;
@@ -83,7 +105,7 @@ class Base extends Component {
             <footer style={{ textAlign: 'center' }}>Ehame's blog ©2018 Created by Ehame Lu</footer>
           </div>
         </div>
-        <BackToUp offsetTop={document.body.offsetHeight} step={24} visiblePercent={20} />
+        <BackToUp offsetTop={document.body.offsetHeight} step={100} visiblePercent={20} />
       </div>
     );
   }
