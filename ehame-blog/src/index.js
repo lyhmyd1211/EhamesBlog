@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider} from  'react-redux';
+import { Provider } from 'react-redux';
 import store from './redux-root/store';
 import './style/common.less';
 import App from './router';
@@ -13,6 +13,7 @@ moment.locale('zh-cn');
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>
-  , document.getElementById('root'));
+  </Provider>,
+  document.getElementById('root')
+);
 registerServiceWorker();

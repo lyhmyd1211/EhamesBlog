@@ -6,6 +6,7 @@ import { fetchArticleById, detailState } from '../../redux-root/action/artical';
 import './detail.less';
 import { getCataLog, getScrollTop } from '../../util.js';
 import { NavLink } from 'react-router-dom';
+// import Directory from 'react-directory-category';
 const { Meta } = Card;
 @connect(
   state => ({
@@ -39,6 +40,7 @@ export default class Detail extends Component {
   getDetail = async id => {
     await this.props.getArticleDetail(id);
     await this.setState({ cataLog: getCataLog(this.refs.content) });
+    // await this.setState({ cataLog: this.refs.content });
   };
   scrollToSelect = node => {
     window.scrollTo(0, node && node.offsetTop + document.body.offsetHeight - 20);
@@ -53,7 +55,6 @@ export default class Detail extends Component {
   }
   isActive = (index, node, nextNode) => {
     const { current } = this.props;
-    console.log('current', current);
     if (node && nextNode) {
       let precent = node.offsetTop + document.body.offsetHeight - 20;
       let next = nextNode.offsetTop + document.body.offsetHeight - 20;
@@ -70,6 +71,7 @@ export default class Detail extends Component {
     this.props.setDetailHeaderState(false);
   }
   render() {
+    console.log('object', this.state.cataLog);
     const { content } = this.props;
     return (
       <div className="detail-main">
@@ -116,6 +118,7 @@ export default class Detail extends Component {
             ))}
           </Card>
         </Affix>
+        {/* <Directory directory={this.state.cataLog} /> */}
       </div>
     );
   }

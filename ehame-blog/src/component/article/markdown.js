@@ -13,7 +13,7 @@ import { ArticleContent } from '../../redux-root/action/artical';
     currentArticle: state.getCurrentArticleId,
   }),
   dispatch => ({
-    setArticleContent: (n) => dispatch(ArticleContent(n)),
+    setArticleContent: n => dispatch(ArticleContent(n)),
   })
 )
 export default class MarkDown extends Component {
@@ -31,8 +31,7 @@ export default class MarkDown extends Component {
     this.setState({
       title: this.props.detail.title,
     });
-
-  }
+  };
 
   componentWillReceiveProps(next) {
     if (next.model.submit) {
@@ -63,14 +62,12 @@ export default class MarkDown extends Component {
   }
   render() {
     const { title } = this.state;
-    console.log('model', this.props.model);
 
     return (
       <div>
-        <Input onChange={(e) => this.setState({ title: e.target.value })} value={title} />
+        <Input onChange={e => this.setState({ title: e.target.value })} value={title} />
         <MarkdownEditor />
       </div>
-
     );
   }
 }

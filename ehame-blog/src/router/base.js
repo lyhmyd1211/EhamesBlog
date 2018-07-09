@@ -60,7 +60,7 @@ class Base extends Component {
 
     return (
       <div className="base-main">
-        <div className="header-image-main" />
+        <div className="header-image-main" id="header-image-main" />
         <Affix className="header-affix">
           <Header />
         </Affix>
@@ -105,7 +105,7 @@ class Base extends Component {
             <footer style={{ textAlign: 'center' }}>Ehame's blog ©2018 Created by Ehame Lu</footer>
           </div>
         </div>
-        <BackToUp offsetTop={document.body.offsetHeight} step={100} visiblePercent={20} />
+        <BackToUp offsetTop={document.body.offsetHeight * 0.7} step={100} visiblePercent={20} />
       </div>
     );
   }

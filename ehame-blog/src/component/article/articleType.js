@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { Input, Message, Icon, Menu, Modal } from 'antd';
 
 import { connect } from 'react-redux';
-import { fetchArticleType, fetchArticleTitleList, fetchArticleById, setCurrentTypeId, setCurrentArticleId } from '../../redux-root/action/artical';
+import {
+  fetchArticleType,
+  fetchArticleTitleList,
+  fetchArticleById,
+  setCurrentTypeId,
+  setCurrentArticleId,
+} from '../../redux-root/action/artical';
 import { NavLink } from 'react-router-dom';
 import { post } from '../../fetchData';
 import './writer.less';
@@ -12,11 +18,11 @@ import './writer.less';
     articleTitle: state.getArticleTitle.articleTitle.root.list,
   }),
   dispatch => ({
-    setCurrentArticle: (n) => dispatch(setCurrentArticleId(n)),
-    setCurrentType: (n) => dispatch(setCurrentTypeId(n)),
+    setCurrentArticle: n => dispatch(setCurrentArticleId(n)),
+    setCurrentType: n => dispatch(setCurrentTypeId(n)),
     getTypeData: () => dispatch(fetchArticleType()),
-    getListData: (model) => dispatch(fetchArticleTitleList(model)),
-    getArticleDetail: (n) => dispatch(fetchArticleById(n)),
+    getListData: model => dispatch(fetchArticleTitleList(model)),
+    getArticleDetail: n => dispatch(fetchArticleById(n)),
   })
 )
 export default class ArticleType extends Component {
@@ -27,21 +33,22 @@ export default class ArticleType extends Component {
       operation: false,
       newType: '',
       detail: { type: '', id: '' },
+      repeat: 1,
     };
   }
   componentDidMount() {
-    this.getData({id:'1'});
+    this.getData({ id: '1' });
   }
   setCurrentId(type = '', article = '') {
     this.props.setCurrentType(type);
     this.props.setCurrentArticle(article);
   }
-  getData = async (model) => {
+  getData = async model => {
     try {
       const locationToDetail = () => {
         window.location.hash = `/write/${model.id}/detail/${this.props.articleTitle[0].id}`;
       };
-      const locationToType = ()=>{
+      const locationToType = () => {
         window.location.hash = `/write/${model.id}`;
       };
       await this.props.getTypeData();
@@ -50,35 +57,33 @@ export default class ArticleType extends Component {
       if (this.props.articleTitle[0]) {
         await this.setCurrentId(model.id, this.props.articleTitle[0].id);
         await locationToDetail();
-      } else  {
+      } else {
         await this.setCurrentId(model.id, '');
         await locationToType();
       }
-
     } catch (error) {
       console.error('err', error);
     }
-  }
-  getArticleList = async (model) => {
-    const locationToDetail = (model) => {
+  };
+  getArticleList = async model => {
+    const locationToDetail = model => {
       window.location.hash = `/write/${model.id}/detail/${this.props.articleTitle[0].id}`;
     };
     try {
       await this.props.getListData(model);
       if (this.props.articleTitle[0]) {
-
-        await this.props.getArticleDetail(this.props.articleTitle[0].id);
-        await locationToDetail(model);
-        await this.setCurrentId(model.id, this.props.articleTitle[0].id);
+        this.props.getArticleDetail(this.props.articleTitle[0].id);
+        locationToDetail(model);
+        this.setCurrentId(model.id, this.props.articleTitle[0].id);
       } else {
-        await this.setCurrentId(model.id, '');
+        this.setCurrentId(model.id, '');
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  addArticleType=async(body)=> {
+  addArticleType = async body => {
     if (this.state.newType === '') {
       Message.error('类型名称不能为空!');
       return;
@@ -92,10 +97,10 @@ export default class ArticleType extends Component {
         }
       });
     }
-  }
+  };
   modalSubmit = async () => {
     const { modalType, detail } = this.state;
-    const {articleType} = this.props;
+    const { articleType } = this.props;
     if (modalType === 'edit') {
       await post('article/updateType', detail, data => {
         if (data.retCode === 1) {
@@ -106,8 +111,7 @@ export default class ArticleType extends Component {
           Message.error(data.massage || data.retMsg);
         }
       });
-    }
-    else if (modalType === 'delete') {
+    } else if (modalType === 'delete') {
       post('article/deleteType', { id: detail.id }, data => {
         if (data.retCode === 1) {
           Message.success(data.retMsg);
@@ -118,53 +122,86 @@ export default class ArticleType extends Component {
         }
       });
     }
-
-  }
+  };
   render() {
-    const { operation, newType, setting, current, modalType, newKey, detail } = this.state;
+    const { operation, newType, setting, current, modalType, newKey, detail, repeat } = this.state;
     const { articleType } = this.props;
+    console.log('typerepeat', repeat);
     const Type = () => {
+      // let repeat = 0;
       if (articleType) {
-        return articleType.filter(_ => _.id !== 1).map((item, index) =>
+        return articleType.filter(_ => _.typeId !== 1).map((item, index) => (
           <NavLink
             key={index}
-            to={'/write/' + item.id}
+            to={'/write/' + item.typeId}
             activeClassName="active"
             className="article-type-classify"
-            onClick={(e) => e.target.className === 'article-type-classify' ? this.getArticleList({ state: 0, id: item.id }) : e.preventDefault()}>
-            {item.type}
-            <div style={{ float: 'right' }}>
-              <Icon type="setting" onClick={() => this.setState({ setting: !setting, current: item.id })} />
+            onClick={e => {
+              if (repeat !== item.typeId) {
+                this.setState({ repeat: item.typeId });
+                this.getArticleList({ state: 0, id: item.typeId });
+              } else {
+                e.preventDefault();
+              }
+            }}
+          >
+            <div
+              className="setting-default"
+              style={{ display: repeat === item.typeId ? 'block' : 'none' }}
+            >
+              <Icon
+                type="setting"
+                onClick={e => {
+                  this.setState({ setting: !setting, current: item.typeId });
+                }}
+              />
               <div
                 className="type-setting"
-                style={{ display: setting && current === item.id ? 'block' : 'none' }}>
-                <Menu className="type-setting-menu"
-                  onClick={_ => this.setState({ modalType: _.key, detail: item })}>
-                  <Menu.Item key="edit"><Icon type="edit" />修改类型名称</Menu.Item>
-                  <Menu.Item key="delete"><Icon type="delete" />删除类型名称</Menu.Item>
+                style={{ display: setting && current === item.typeId ? 'block' : 'none' }}
+              >
+                <Menu
+                  className="type-setting-menu"
+                  onClick={_ => this.setState({ modalType: _.key, detail: item })}
+                >
+                  <Menu.Item key="edit">
+                    <Icon type="edit" />修改类型名称
+                  </Menu.Item>
+                  <Menu.Item key="delete">
+                    <Icon type="delete" />删除类型名称
+                  </Menu.Item>
                 </Menu>
               </div>
             </div>
+            <div className="setting-title">{item.type}</div>
           </NavLink>
-        );
+        ));
       }
       return <div />;
     };
     return (
       <div>
         <div className="btn-back-to-home">
-          <a href="#/home">
-            回首页
-          </a>
+          <a href="#/home">回首页</a>
         </div>
         <div className="btn-new-type" onClick={() => this.setState({ operation: true })}>
           <Icon type="plus-circle-o" />
           <span>新建分类</span>
         </div>
         <div className={operation ? 'new-type-operation-active' : 'new-type-operation'}>
-          <Input className="input-new-type" value={newType} onChange={(e) => this.setState({ newType: e.target.value })} />
-          <div className="btn-type-cencel" onClick={() => this.setState({ operation: false, newType: '' })}>取消</div>
-          <div className="btn-type-ok" onClick={this.addArticleType.bind(this, newType)}>提交</div>
+          <Input
+            className="input-new-type"
+            value={newType}
+            onChange={e => this.setState({ newType: e.target.value })}
+          />
+          <div
+            className="btn-type-cencel"
+            onClick={() => this.setState({ operation: false, newType: '' })}
+          >
+            取消
+          </div>
+          <div className="btn-type-ok" onClick={this.addArticleType.bind(this, newType)}>
+            提交
+          </div>
         </div>
         <nav className="type-list">
           <NavLink
@@ -172,7 +209,15 @@ export default class ArticleType extends Component {
             to={'/write/1'}
             activeClassName="active"
             className="article-type-classify"
-            onClick={(e) => e.target.className === 'article-type-classify' ? this.getArticleList({ state: 0, id: 1 }) : e.preventDefault()}>
+            onClick={e => {
+              if (repeat !== 1) {
+                this.setState({ repeat: 1 });
+                this.getArticleList({ state: 0, id: 1 });
+              } else {
+                e.preventDefault();
+              }
+            }}
+          >
             {'未分类'}
           </NavLink>
           <Type />
@@ -183,17 +228,18 @@ export default class ArticleType extends Component {
           closable={false}
           visible={modalType ? true : false}
           onOk={this.modalSubmit}
-          onCancel={() => this.setState({ modalType: false })}>
-          {
-            modalType === 'edit' ?
-              <Input value={detail.type} onChange={(e) => this.setState({ detail: { type: e.target.value, id: detail.id } })
-              } />
-              :
-              <div>{'确认删除文章类型《' + detail.type + '》?'}</div>
-          }
+          onCancel={() => this.setState({ modalType: false })}
+        >
+          {modalType === 'edit' ? (
+            <Input
+              value={detail.type}
+              onChange={e => this.setState({ detail: { type: e.target.value, id: detail.id } })}
+            />
+          ) : (
+            <div>{'确认删除文章类型《' + detail.type + '》?'}</div>
+          )}
         </Modal>
       </div>
     );
   }
-
 }

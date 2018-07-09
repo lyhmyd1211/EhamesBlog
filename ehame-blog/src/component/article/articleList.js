@@ -25,10 +25,16 @@ export default class ArticleList extends Component {
       articleTitle: this.props.articleTitle,
       setting: false,
       detail: { type: '', id: '' },
+      repeat: 0,
     };
   }
   componentDidMount() {
     this.getArticleTitle();
+  }
+  componentWillReceiveProps(p) {
+    if (p.articleTitle !== this.state.articleTitle) {
+      this.setState({ articleTitle: p.articleTitle, repeat: 0 });
+    }
   }
   getArticleTitle = async () => {
     try {
@@ -37,10 +43,13 @@ export default class ArticleList extends Component {
           this.props.articleTitle[0].id
         }`;
       };
-      await this.props.getArticleTitle({ state: 0, id: this.props.match.params.id });
+      await this.props.getArticleTitle({
+        state: 0,
+        id: this.props.match.params.id,
+      });
       if (this.props.articleTitle[0]) {
-        await locationToDetail();
-        await this.props.getArticleDetail(this.props.articleTitle[0].id);
+        locationToDetail();
+        this.props.getArticleDetail(this.props.articleTitle[0].id);
       }
     } catch (error) {
       console.log(error);
@@ -77,7 +86,9 @@ export default class ArticleList extends Component {
   };
   render() {
     const { articleTitle, currentType } = this.props;
-    const { setting, current, modalType, newKey, detail } = this.state;
+    const { setting, current, modalType, newKey, detail, repeat } = this.state;
+    // console.log('articleTitle', articleTitle);
+    console.log('repeat', repeat);
     const List = () => {
       if (articleTitle) {
         return articleTitle.map((item, index) => (
@@ -86,21 +97,28 @@ export default class ArticleList extends Component {
             to={'/write/' + currentType + '/detail/' + item.id}
             activeClassName="active"
             className="article-detail-classify"
-            onClick={e =>
-              e.target.className === 'article-detail-classify'
-                ? this.props.getArticleDetail(item.id)
-                : e.preventDefault()
-            }
+            onClick={e => {
+              if (repeat !== index) {
+                this.setState({ repeat: index });
+                this.props.getArticleDetail(item.id);
+              } else {
+                e.preventDefault();
+              }
+            }}
           >
-            {item.title}
-            <div style={{ float: 'right' }}>
+            <div
+              className="setting-default"
+              style={{ display: repeat === index ? 'block' : 'none' }}
+            >
               <Icon
                 type="setting"
                 onClick={() => this.setState({ setting: !setting, current: item.id })}
               />
               <div
                 className="type-setting"
-                style={{ display: setting && current === item.id ? 'block' : 'none' }}
+                style={{
+                  display: setting && current === item.id ? 'block' : 'none',
+                }}
               >
                 <Menu
                   className="type-setting-menu"
@@ -112,6 +130,7 @@ export default class ArticleList extends Component {
                 </Menu>
               </div>
             </div>
+            <div className="setting-title">{item.title}</div>
           </NavLink>
         ));
       } else {
@@ -120,7 +139,7 @@ export default class ArticleList extends Component {
     };
     return (
       <div>
-        <Col span="4" className="markdown-middle-list">
+        <Col span="6" className="markdown-middle-list">
           <div className="new-article" onClick={this.add}>
             <Icon type="plus-square" />
             <span>新建文章</span>
@@ -129,7 +148,7 @@ export default class ArticleList extends Component {
             <List />
           </nav>
         </Col>
-        <Col span="16">
+        <Col span="14">
           <Route key="write" exact path="/write/:id/detail/:id" component={Markdown} />
         </Col>
         <Modal
@@ -143,7 +162,11 @@ export default class ArticleList extends Component {
           {modalType === 'edit' ? (
             <Input
               value={detail.title}
-              onChange={e => this.setState({ detail: { type: e.target.value, id: detail.id } })}
+              onChange={e =>
+                this.setState({
+                  detail: { type: e.target.value, id: detail.id },
+                })
+              }
             />
           ) : (
             <div>{'确认删除文章《' + detail.title + '》?'}</div>

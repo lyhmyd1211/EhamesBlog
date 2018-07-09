@@ -130,23 +130,24 @@ export function getCataLog(element) {
   let cataLog = [];
   let tag = ['H1', 'H2', 'H3'];
   console.log('element', element);
-  cataLog = Array.from(element.querySelectorAll('h1,h2,h3'));
-  console.log('cataLog', cataLog);
-  return cataLog.map(item => {
-    function getNextNode(el) {
-      if (el.nextElementSibling !== null && tag.findIndex(_ => _ === el.tagName) === -1) {
-        return getNextNode(el.nextElementSibling);
-      } else {
-        return el;
+  if (element) {
+    cataLog = Array.from(element.querySelectorAll('h1,h2,h3'));
+    return cataLog.map(item => {
+      function getNextNode(el) {
+        if (el.nextElementSibling !== null && tag.findIndex(_ => _ === el.tagName) === -1) {
+          return getNextNode(el.nextElementSibling);
+        } else {
+          return el;
+        }
       }
-    }
-    return {
-      type: 'cataLog-' + item.tagName,
-      text: item.innerText,
-      node: item,
-      nextNode: getNextNode(item.nextElementSibling),
-    };
-  });
+      return {
+        type: 'cataLog-' + item.tagName,
+        text: item.innerText,
+        node: item,
+        nextNode: getNextNode(item.nextElementSibling),
+      };
+    });
+  }
 }
 /**
  *  事件监听兼容写法

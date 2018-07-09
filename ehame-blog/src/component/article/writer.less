@@ -101,18 +101,28 @@
         }
       }
     }
-    .type-setting{
+    .setting-default{
+      position: relative;
+      float: right;
+      .type-setting{
       position:absolute;
       right: 10px;
       margin-top: 10px;
+      }
+      .type-setting-menu{
+        -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        list-style: none;
+        background-color: #fff;
+        color: #595959;
+        border-radius: 10px;
+      }
     }
-    .type-setting-menu{
-      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-      box-shadow: 0 5px 10px rgba(0,0,0,.2);
-      list-style: none;
-      background-color: #fff;
-      color: #595959;
-      border-radius: 10px;
+    .setting-title{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+    
   }
 }
