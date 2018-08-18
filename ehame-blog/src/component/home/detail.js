@@ -43,14 +43,22 @@ export default class Detail extends Component {
     // await this.setState({ cataLog: this.refs.content });
   };
   scrollToSelect = node => {
-    window.scrollTo(0, node && node.offsetTop + document.body.offsetHeight - 20);
+    console.log(
+      '跳转',
+      node && node.offsetTop + document.body.offsetHeight - 20
+    );
+
+    window.scrollTo(
+      0,
+      node && node.offsetTop + document.body.offsetHeight - 20
+    );
   };
   cataLogScroll(index) {
     let id = 'catalog-default' + index;
     let cur = document.getElementById(id);
     let win = document.getElementById('detail-card-catalog');
     if (cur) {
-      win.scrollTo(0, cur.offsetTop - 68);
+      // win.scrollTo(0, cur.offsetTop - 68);
     }
   }
   isActive = (index, node, nextNode) => {
@@ -71,17 +79,24 @@ export default class Detail extends Component {
     this.props.setDetailHeaderState(false);
   }
   render() {
-    console.log('object', this.state.cataLog);
     const { content } = this.props;
     return (
       <div className="detail-main">
         <div className="detail-article">
           <Card bordered={false} className="detail-card-main">
             <div className="detail-content" id="detail-content">
-              <Meta title={<h1 className="article-title">{content.title}</h1>} />
+              <Meta
+                title={<h1 className="article-title">{content.title}</h1>}
+              />
               <div className="meta-info">
-                <span>发布日期: {moment(content.releaseTime).format('YYYY-MM-DD hh:mm:ss')}</span>
-                <span>最后修改: {moment(content.editTime).format('YYYY-MM-DD hh:mm:ss')}</span>
+                <span>
+                  发布日期:{' '}
+                  {moment(content.releaseTime).format('YYYY-MM-DD hh:mm:ss')}
+                </span>
+                <span>
+                  最后修改:{' '}
+                  {moment(content.editTime).format('YYYY-MM-DD hh:mm:ss')}
+                </span>
                 <span>类别: {content.type}</span>
                 <span>阅读次数: {content.beReadTimes}</span>
               </div>
@@ -105,13 +120,17 @@ export default class Detail extends Component {
             {this.state.cataLog.map((item, index) => (
               <li key={index}>
                 <NavLink
-                  isActive={this.isActive.bind(this, index, item.node, item.nextNode)}
+                  isActive={this.isActive.bind(
+                    this,
+                    index,
+                    item.node,
+                    item.nextNode
+                  )}
                   className={'catalog-default ' + item.type}
                   id={'catalog-default' + index}
                   activeClassName={'active'}
                   to={`${this.props.match.url}/header${index}`}
-                  onClick={this.scrollToSelect.bind(this, item.node)}
-                >
+                  onClick={this.scrollToSelect.bind(this, item.node)}>
                   {item.text}
                 </NavLink>
               </li>
