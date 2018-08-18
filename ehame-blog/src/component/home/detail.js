@@ -113,7 +113,6 @@ export default class Detail extends Component {
           </Card>
         </div>
         <Affix className="detail-catalog-affix" offsetTop={77}>
-          <div className="hide-scroll" />
           <Card className="detail-card-catalog" id="detail-card-catalog">
             <div style={{ fontSize: '16px', fontWeight: 700 }}>目录</div>
             <span style={{ fontWeight: 700 }}>{content.title}</span>
